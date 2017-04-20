@@ -20,6 +20,10 @@ mapHandler.buildMap({ provider: {
  updateMarkers(mapHandler, markersData);
 });
 
+function append(id, direction){
+  el =document.getElementById(id);
+  el.append("<div>").append(direction).append("</div>");
+}
 
 App.messages = App.cable.subscriptions.create('LocationsChannel', { 
   received: function(data){

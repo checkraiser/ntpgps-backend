@@ -7,7 +7,8 @@ class LocationsController < ApplicationController
     command = CreateLocation.call(current_user, params[:latitude], params[:longitude])
     if command.success?
   	  ActionCable.server.broadcast 'locations',
-        locations: marker_locations(locations)
+        locations: marker_locations(locations),
+        direction: direction(command.result)
       head 204
     else
       render json: { error: command.errors }, status: 400 
@@ -18,6 +19,10 @@ class LocationsController < ApplicationController
 
   def locations
     User.select(:latitude, :longitude, :email)
+  end
+
+  def direction(user)
+    "User #{user.email}: #{user.address}"
   end
 
   def marker_locations(locations)
