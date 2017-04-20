@@ -6,10 +6,15 @@ class LocationsController < ApplicationController
   def create
     command = CreateLocation.call(current_user, params[:latitude], params[:longitude])
     if command.success?
-  	  ActionCable.server.broadcast 'locations',
-        locations: marker_locations(locations),
-        direction: direction(command.result)
-      head 204
+      cmd = command.call
+      if cmd.success?
+    	  ActionCable.server.broadcast 'locations',
+          locations: marker_locations(locations),
+          direction: direction(command.result)
+        head 204
+      else
+        render json: { error: cmd.errors }, status: 400 
+      end
     else
       render json: { error: command.errors }, status: 400 
     end
