@@ -10,8 +10,11 @@ class CreateCheckIn
   def call
   	check_in = @user.check_ins.build  latitude: @latitude,
   						   			  longitude: @longitude
-    return check_in if check_in.save
-     errors.merge(check_in.errors)
+    if check_in.save
+      UpdateUserGeo.call(@user, @latitude, @longitude)
+    else
+      check_in.errors
+    end
   rescue => e
   	errors.add :create_check_in, e.message
   end

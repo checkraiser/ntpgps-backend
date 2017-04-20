@@ -1,6 +1,9 @@
 require 'faker'
 
-u = User.first
-100.times do 
-  u.locations.create latitude: Faker::Address.latitude, longitude: Faker::Address.longitude  
+after "development:users" do
+User.all.each do |u|
+  3.times do 
+    CreateLocation.call u, Faker::Address.latitude, Faker::Address.longitude  
+  end
+end
 end

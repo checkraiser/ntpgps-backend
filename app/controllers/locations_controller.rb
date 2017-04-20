@@ -17,14 +17,13 @@ class LocationsController < ApplicationController
   private
 
   def locations
-  	location_ids = Location.group(:user_id).maximum(:id).values
-  	locations = Location.where(id: location_ids).includes(:user).limit(3)
+    User.select(:latitude, :longitude, :email)
   end
 
   def marker_locations(locations)
   	Gmaps4rails.build_markers(locations) do |location, marker|
-  	  marker.lat location[:latitude]
-  	  marker.lng location[:longitude]
+  	  marker.lat location.latitude
+  	  marker.lng location.longitude
       marker.json({ :user_id => location[:user_id] })
       marker.infowindow location[:user_email]
   	end

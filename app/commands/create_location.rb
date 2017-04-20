@@ -10,8 +10,11 @@ class CreateLocation
   def call
   	location = @user.locations.build  latitude: @latitude,
   						   			                longitude: @longitude
-    return location if location.save
-     errors.merge(location.errors)
+    if location.save
+      UpdateUserGeo.call(@user, @latitude, @longitude)
+    else
+      location.errors
+    end
   rescue => e
   	errors.add :create_location, e.message
   end

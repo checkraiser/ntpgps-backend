@@ -10,8 +10,11 @@ class CreateCheckOut
   def call
   	check_out = @user.check_outs.build  latitude: @latitude,
   						   			                 longitude: @longitude
-    return check_out if check_out.save
-     errors.merge(check_out.errors)
+    if check_out.save
+      UpdateUserGeo.call(@user, @latitude, @longitude)
+    else
+      errors.merge(check_out.errors)
+    end
   rescue => e
   	errors.add :create_check_out, e.message
   end
