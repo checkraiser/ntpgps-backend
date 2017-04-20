@@ -22,7 +22,7 @@ mapHandler.buildMap({ provider: {
 
 function append(id, direction){
   el =document.getElementById(id);
-  el.append("<div>").append(direction).append("</div>");
+  el.innerHTML = el.innerHTML + "<div>" + direction + "</div>";
 }
 
 App.messages = App.cable.subscriptions.create('LocationsChannel', { 
