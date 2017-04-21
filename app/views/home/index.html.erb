@@ -63,7 +63,7 @@ function transition(mapState, markerState, result){
     moveMarker(mapState, markerState);
 }
 function pan(mapState){
-	mapState.map.panTo(mkLatLng(mapState.centerPos[0], mapState.centerPos[1]);
+	mapState.map.panTo(mkLatLng(mapState.centerPos[0], mapState.centerPos[1]));
 }
 function moveMarker(mapState, markerState){
     markerState.position[0] += markerState.deltaLat;
