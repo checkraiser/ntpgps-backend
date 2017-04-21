@@ -51,6 +51,7 @@ function initialize(mapState, mapId, centerPos, posMarkers) {
     		deltaLng: 0
     	}
     });
+    fitBound(mapState);
 }
 function subscribeChannel(channel, mapState, App){
 	App.messages = App.cable.subscriptions.create(channel, { 
