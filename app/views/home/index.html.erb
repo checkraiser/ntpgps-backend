@@ -6,6 +6,13 @@
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDC_f7OaJMYMK92QjscI1B8Jo9U_33bBhQ""></script>
  
 <script>
+function fitBound(mapState){
+    var bounds = new google.maps.LatLngBounds();
+    mapState.markerStates.forEach(function(ms){
+        bounds.extend(ms.marker.getPosition());
+    });
+    mapState.map.fitBounds(bounds);    
+}
 function findMarkerState(mapState, markerId){
 	var states = mapState.markerStates.filter(function(ms){
 		return ms.id == markerId;
@@ -51,7 +58,6 @@ function subscribeChannel(channel, mapState, App){
 	    var markerState = findMarkerState(mapState, data.position[0]);	    
 	    var pos = [data.position[1], data.position[2]];
         mapState.centerPos = data.center;
-	    pan(mapState);
 	    transition(mapState, markerState, pos);
 	  }
 	});
@@ -70,6 +76,7 @@ function moveMarker(mapState, markerState){
     markerState.position[1] += markerState.deltaLng;
     var latlng = mkLatLng(markerState.position[0], markerState.position[1]); 
     markerState.marker.setPosition(latlng);
+    fitBound(mapState);
     if(markerState.i != mapState.numDeltas){
         markerState.i++;
         setTimeout(function(){
