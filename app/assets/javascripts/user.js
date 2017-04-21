@@ -43,8 +43,8 @@ function initialize(mapState, mapId, centerPos, posMarkers) {
     	}
     });
     fitBound(mapState);
-    console.log(mapState);
 }
+
 function subscribeChannel(channel, mapState, App){
 	App.messages = App.cable.subscriptions.create(channel, { 
 	  received: function(data){

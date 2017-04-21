@@ -1,0 +1,12 @@
+<form class="form-horizontal" accept-charset="UTF-8" action="/users" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <%= render partial: "users/name" %>
+  <%= render partial: "users/email" %>  
+  <%= render partial: "users/password" %>
+  <%= render partial: "users/password_confirmation" %>
+  <%= render partial: "users/address" %>
+  <%= render partial: "users/admin" %>
+  <div class="form-group ">
+    <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Create</button>
+  </div>
+</form>

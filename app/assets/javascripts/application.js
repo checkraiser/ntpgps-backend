@@ -11,8 +11,8 @@
 // about supported directives.
 //
 //= require jquery
-//= require turbolinks
-//= require materialize-sprockets
+//= require bootstrap-sprockets
 //= require underscore
-//= require gmaps/google
+//= require jquery.autocomplete
+//= require home
 //= require cable

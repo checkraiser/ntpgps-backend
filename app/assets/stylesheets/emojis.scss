@@ -1,0 +1,55 @@
+// Place all the styles related to the emojis controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@page {
+	font-family: 'Avenir';
+	@bottom {
+        content: counter(page);
+        font-size: 10pt;
+        font-weight: bold;
+        vertical-align: top;
+    }
+}
+
+@page:first {
+	@bottom {
+		content: none;
+	}
+}
+
+@page:blank {
+	@bottom {
+		content: none;
+	}
+}
+
+body {
+	text-align: center;
+	font-family: 'Avenir';
+	letter-spacing: 0.2em;
+	line-height: 1.5;
+}
+
+h1 {
+	page-break-after: right;
+	font-size: 96pt;
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	left: 0;
+	right: 0;
+	/*font-weight: normal;*/
+	line-height: 1;
+	text-transform: uppercase;
+	/*font-kerning: normal;*/
+}
+
+li {
+	page-break-after: right;
+	position: absolute;
+	bottom: 1cm;
+	left: 0;
+	right: 0;
+	display: block;
+	font-size: 14pt;
+}
