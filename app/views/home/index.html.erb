@@ -50,7 +50,8 @@ function subscribeChannel(channel, mapState, App){
 	  received: function(data){
 	    var markerState = findMarkerState(mapState, data.position[0]);	    
 	    var pos = [data.position[1], data.position[2]];
-	  //  panTo(mapState, data.center);
+        mapState.centerPos = data.center;
+	    pan(mapState);
 	    transition(mapState, markerState, pos);
 	  }
 	});
@@ -61,8 +62,8 @@ function transition(mapState, markerState, result){
     markerState.deltaLng = (result[1] - markerState.position[1])/mapState.numDeltas;
     moveMarker(mapState, markerState);
 }
-function panTo(mapState, center){
-	mapState.map.panTo(mkLatLng(center[0], center[1]));
+function pan(mapState){
+	mapState.map.panTo(mkLatLng(mapState.centerPos[0], mapState.centerPos[1]);
 }
 function moveMarker(mapState, markerState){
     markerState.position[0] += markerState.deltaLat;
