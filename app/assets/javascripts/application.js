@@ -15,5 +15,4 @@
 //= require materialize-sprockets
 //= require underscore
 //= require gmaps/google
-//= require map
 //= require cable

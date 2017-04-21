@@ -1,14 +1,15 @@
 class LocationsController < ApplicationController
   def index
-	render json: marker_locations(locations)
+    @center = center
+	  render json: marker_locations(locations)
   end
 
   def create
     command = CreateLocation.call(current_user, params[:latitude], params[:longitude])
     if command.success?
     	  ActionCable.server.broadcast 'locations',
-          locations: marker_locations(locations),
-          direction: direction(command.result.result)
+          position: [current_user.id, params[:latitude], params[:longitude]],
+          center: center
         head 204
     else
       render json: { error: command.errors }, status: 400 
@@ -19,6 +20,10 @@ class LocationsController < ApplicationController
 
   def locations
     User.select(:latitude, :longitude, :email)
+  end
+
+  def center
+    Geocoder::Calculations.geographic_center User.pluck(:latitude, :longitude)
   end
 
   def direction(user)
