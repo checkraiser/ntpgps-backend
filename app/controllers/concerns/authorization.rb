@@ -9,7 +9,7 @@ module Authorization
 
   def authorize_admin!
   	if json_request?
-  		render_json_error unless admin?
+  		render_json_error  unless admin?
   	else
   		redirect_to login_path, notice: "Please login" unless  admin?
   	end
@@ -21,5 +21,6 @@ module Authorization
 
   def render_json_error
   	render json: { error: 'Not Authorized' }, status: 401
+    return
   end
 end
