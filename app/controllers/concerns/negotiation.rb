@@ -6,7 +6,6 @@ module Negotiation
   def require_json_request!
     unless json_request?
       render json: { error: 'Not Authorized' }, status: 401
-      return
     end
   end
 

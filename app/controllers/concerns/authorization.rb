@@ -21,6 +21,5 @@ module Authorization
 
   def render_json_error
   	render json: { error: 'Not Authorized' }, status: 401
-    return
   end
 end
