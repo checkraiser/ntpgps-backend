@@ -3,6 +3,12 @@ module Negotiation
 
   private
 
+  def require_json_request!
+    unless json_request?
+      render json: { error: 'Not Authorized' }, status: 401
+    end
+  end
+
   def json_request?
     request.format.json? || json_header?
   end

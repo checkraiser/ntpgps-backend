@@ -2,6 +2,8 @@ class AuthenticationController < ApplicationController
   skip_before_action :authenticate_api_request
 
   def authenticate
+  	require_json_request!
+  	
     command = AuthenticateUser.call(params[:email], params[:password])
     if command.success? 
       render json: { token: command.result } 
