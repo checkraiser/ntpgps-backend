@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'reports/export'
+
   mount ActionCable.server => '/cable'
   root to: 'home#index'
   resources :users

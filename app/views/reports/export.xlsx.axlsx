@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Reports") do |sheet|
+  sheet.add_row ["TT", "Ngày", "Check IN", "Địa điểm", "Ngày","Check out", "Nội dung", "Ghi chú"]
+  @reports.each_with_index do |cc, index|
+    sheet.add_row [index, cc.ci_date, cc.ci_time, cc.ci_address, cc.co_date, cc.co_time, cc.co_address, ""]   
+  end
+end

@@ -44,6 +44,9 @@ gem 'materialize-sass'
 gem 'material_icons'
 gem 'simple_form'
 gem 'gmaps4rails'
+gem 'axlsx', '2.1.0.pre'
+gem 'axlsx_rails'
+gem 'active_record_union'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
