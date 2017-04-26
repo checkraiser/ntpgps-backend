@@ -8,6 +8,7 @@
   <td>Address</td>
   <td>Admin</td>
   <td>Show</td>
+  <td>Report</td>
 </thead>
 <tbody>
   <% @users.each do |user| %>
@@ -19,6 +20,7 @@
   	<td><%= user.address %></td>
   	<td><%= user.admin? %></td>
   	<td><%= link_to user.name, user_path(user) %>
+    <td><%= link_to 'Report', report_user_path(user, format: :xlsx) %>
   	</tr>
   <% end %>
 </tbody>

@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   mount ActionCable.server => '/cable'
   root to: 'home#index'
-  resources :users
+  resources :users do 
+    member do 
+      get :report
+    end
+  end
   resources :locations, only: [:index, :create]
   resources :check_ins, only: [:index, :create]
   resources :check_outs, only: [:index, :create]
