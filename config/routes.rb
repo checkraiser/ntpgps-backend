@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'reports/export'
 
+  resources :groups, only: [:index, :new, :create]
+
   mount ActionCable.server => '/cable'
   root to: 'home#index'
   resources :users do 

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authorize_admin!
-  before_action :require_user, only: [:show, :report]
+  before_action :require_user, only: [:show, :report, :update_groups]
 
   def index
     @users = User.all
@@ -26,10 +26,13 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
-  end
-
-  def update
+  def update_groups
+    command = SetUserGroups.call(user.id, group_ids)
+    if command.success?
+      redirect_to users_path, success: "Groups updated successfully"
+    else
+      redirect_to users_path, error: command.errors
+    end
   end
 
   def destroy
@@ -71,5 +74,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :address, :admin)
+  end
+
+  def group_ids
+    params[:group_ids]
   end
 end

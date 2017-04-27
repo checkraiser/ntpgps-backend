@@ -1,9 +1,6 @@
 <div class="header clearfix" style="margin-top:5px;">
     <nav>
-      <ul class="nav nav-pills pull-right">
-        <li role="presentation" class="<%= active_class('/') %>">
-        	<%= link_to "Home", root_path %>
-        </li>
+      <ul class="nav nav-pills pull-right">        
         <% if logged_in? %>
         	<% if admin? %>
 		        <li role="presentation" class="<%= active_class('/users') %>">
@@ -20,7 +17,4 @@
 		<% end %>
       </ul>
     </nav>
-    <h3 class="text-muted">
-    	<%= link_to "NTP Connect", "/" %>
-    </h3>
   </div>

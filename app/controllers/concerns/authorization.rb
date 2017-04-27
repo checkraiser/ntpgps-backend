@@ -1,7 +1,7 @@
 module Authorization
   extend ActiveSupport::Concern
 
-  included do 
+  included do     
   	helper_method :admin?
   end
 

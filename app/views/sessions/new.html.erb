@@ -1,9 +1,15 @@
 <% content_for(:css_include) do %>
     <%= stylesheet_link_tag    'login', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <style>
+      .img-responsive {
+          margin: 0 auto;
+      }
+    </style>
 <% end %>
 
 <div class="row main">
   <div class="main-login main-center">
+    <%= image_tag('banner.png', height: '70px', class: 'img-responsive') %>    
     <form class="form-horizontal" accept-charset="UTF-8" action="/login" method="post">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
       <div class="form-group">

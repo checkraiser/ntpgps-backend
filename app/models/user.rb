@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :check_ins
   has_many :check_outs
   has_many :locations
+  has_many :user_groups
+  has_many :groups, through: :user_groups
 
   validates :name, presence: true
   validates :email, presence: true

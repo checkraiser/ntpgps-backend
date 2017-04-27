@@ -17,7 +17,7 @@ module Authentication
 
   def login_required
     if !logged_in?
-      redirect_to login_path, :notice => "Log in to edit or delete your post"
+      redirect_to login_path
     end
   end
 
