@@ -12,6 +12,7 @@ class CreateCheckIn
   						   			  longitude: @longitude
     if check_in.save
       UpdateUserGeo.call(@user, @latitude, @longitude)
+      return check_in
     else
       check_in.errors
     end

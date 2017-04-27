@@ -12,6 +12,7 @@ class CreateCheckOut
   						   			                 longitude: @longitude
     if check_out.save
       UpdateUserGeo.call(@user, @latitude, @longitude)
+      return check_out
     else
       errors.merge(check_out.errors)
     end
