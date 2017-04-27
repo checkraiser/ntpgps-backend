@@ -4,4 +4,6 @@ class ApplicationController < ActionController::Base
   include Authentication
   include Authorization
   include Rendering
+  include Decoration
+  include JsonSerialization
 end

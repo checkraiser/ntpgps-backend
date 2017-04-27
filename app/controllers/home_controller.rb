@@ -11,7 +11,7 @@ class HomeController < ApplicationController
   private
 
   def load_data
-    @positions = User.pluck(:id, :latitude, :longitude)
+    @positions = pluck(decorate(User.all), :id, :latitude, :longitude, :info)
     @center = Geocoder::Calculations.geographic_center User.pluck(:latitude, :longitude)
     @users = User.where.not(admin: true)
   end

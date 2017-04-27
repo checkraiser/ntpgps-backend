@@ -18,6 +18,27 @@ function mkMarker(map, latlng){
         title: "Your current location!"
     });
 }
+function mkInfoWindow(content) {
+    return new google.maps.InfoWindow({
+      content: content
+    });    
+}
+function addInfoWindowListener(infowindow, map, marker) {
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+    return marker;
+}
+function mkMarkerWithContent(map, lat, lng, content) {
+    var latlng = mkLatLng(lat, lng);
+    var marker = mkMarker(map, latlng);
+    var infowindow = mkInfoWindow(content);
+    return addInfoWindowListener(infowindow, map, marker);
+}
+function setMarkerWithContent(map, marker, content) {
+    var infowindow = mkInfoWindow(content);
+    return addInfoWindowListener(infowindow, map, marker);
+}
 function mkMap(domid, center){
 	var myOptions = {
         zoom: 8,
@@ -37,19 +58,19 @@ function initialize(mapState, mapId, centerPos, posMarkers) {
     		id: pos[0],
     		i: 0,
     		position: [pos[1], pos[2]],
-    		marker: mkMarker(mapState.map, mkLatLng(pos[1], pos[2])),
+    		marker: mkMarkerWithContent(mapState.map, pos[1], pos[2], pos[3]),
     		deltaLat: 0,
     		deltaLng: 0
     	}
     });
     fitBound(mapState);
-    console.log(mapState);
 }
 function subscribeChannel(channel, mapState, App){
 	App.messages = App.cable.subscriptions.create(channel, { 
 	  received: function(data){
 	    var markerState = findMarkerState(mapState, data.position[0]);	    
         if (!!markerState) {
+            setMarkerWithContent(mapState.map, markerState.marker, data.info);
             var pos = [data.position[1], data.position[2]];
             mapState.centerPos = data.center;
             transition(mapState, markerState, pos);    

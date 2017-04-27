@@ -12,3 +12,4 @@ class User < ApplicationRecord
 
   scope :admin, -> { where(admin: true) }
 end
+

@@ -7,7 +7,7 @@
 <script>
 
 var centerPos = <%= @center.to_json %>;
-var positions = <%= @positions.to_json %>;
+var positions = <%= raw @positions.to_json %>;
 var users = <%= raw @users.to_json %>;
 var mapState = {
     map: undefined,

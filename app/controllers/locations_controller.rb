@@ -9,7 +9,8 @@ class LocationsController < ApplicationController
     if command.success?
     	  ActionCable.server.broadcast 'locations',
           position: [current_user.id, params[:latitude], params[:longitude]],
-          center: center
+          center: center,
+          info: current_user.info
         head 204
     else
       render json: { error: command.errors }, status: 400 

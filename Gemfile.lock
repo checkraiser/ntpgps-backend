@@ -27,8 +27,7 @@ GEM
     active_attr (0.10.0)
       activemodel (>= 3.0.2, < 5.1)
       activesupport (>= 3.0.2, < 5.1)
-    active_record_union (1.2.0)
-      activerecord (>= 4.0)
+    active_decorator (0.9.0)
     activejob (5.0.2)
       activesupport (= 5.0.2)
       globalid (>= 0.3.6)
@@ -209,7 +208,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_attr
-  active_record_union
+  active_decorator
   axlsx (= 2.1.0.pre)
   axlsx_rails
   bcrypt (~> 3.1.7)
