@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authorize_admin!
-  before_action :require_user, only: [:show]
+  before_action :require_user, only: [:show, :report]
 
   def index
     @users = User.all
@@ -52,10 +52,10 @@ class UsersController < ApplicationController
   private
 
   def current_position
-    [user.latitude, user.longitude]
+    @current_position ||= [user.latitude, user.longitude]
   end
 
-  def user
+  def require_user
     return @user if @user
     command = FindUser.call(params[:id])
     if command.success?
@@ -63,6 +63,10 @@ class UsersController < ApplicationController
     else
       redirect_to root_path, error: command.errors
     end
+  end
+
+  def user
+    decorate @user
   end
 
   def user_params
