@@ -6,7 +6,9 @@ class CheckOutsController < ApplicationController
   def create
   	command = CreateCheckOut.call(current_user, params[:latitude], params[:longitude])
     if command.success? 
-      render json: { check_in: command.result } 
+      check_out = command.result
+      result = { name: check_out.user.name, checked_in_time: check_out.created_at, address: check_out.address }
+      render json: result.as_json
     else 
       render json: { error: command.errors }, status: :unauthorized 
     end
