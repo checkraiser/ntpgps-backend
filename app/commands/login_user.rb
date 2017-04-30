@@ -15,7 +15,7 @@ class LoginUser
   attr_accessor :email, :password
 
   def user
-  	user = User.find_by_email(email)
+  	user = User.admin.find_by_email(email)
   	return user if user && user.authenticate(password)
 
   	errors.add :user_authentication, 'invalid credentials'

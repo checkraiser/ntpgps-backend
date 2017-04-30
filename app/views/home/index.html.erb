@@ -1,7 +1,12 @@
 <% if admin? %>
+<div class="well">
+<%= render partial: "layouts/panels" %>
+</div>
 <div class="row">
-    <div class="col-md-6"><div id="map"></div></div>
-    <div class="col-md-6"><div id="log"></div></div>
+    <div id="map"></div>    
+</div>
+<div class="row">
+    <div id="log"></div>
 </div>
 
 <script>

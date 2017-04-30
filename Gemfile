@@ -47,6 +47,8 @@ gem 'gmaps4rails'
 gem 'axlsx', '2.1.0.pre'
 gem 'axlsx_rails'
 gem 'active_decorator'
+gem 'whenever', :require => false
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

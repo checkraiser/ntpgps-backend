@@ -1,6 +1,9 @@
 <div class="header clearfix" style="margin-top:5px;">
     <nav>
-      <ul class="nav nav-pills pull-right">        
+      <ul class="nav nav-pills pull-right">  
+        <li role="presentation">
+          <%=link_to "Home", root_path %>
+        </li>      
         <% if logged_in? %>
         	<% if admin? %>
 		        <li role="presentation" class="<%= active_class('/users') %>">

@@ -18,6 +18,23 @@ function mkMarker(map, latlng){
         title: "Your current location!"
     });
 }
+function mkIcon(icon_path){
+    return {
+        url: icon_path, // url
+        scaledSize: new google.maps.Size(50, 50), // scaled size
+        origin: new google.maps.Point(0,0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    }
+}
+function mkMarkerWithIcon(map, latlng, icon_path, title) {
+    return new google.maps.Marker({
+        position: latlng,
+        map: map,
+        icon: mkIcon(icon_path),
+        title: title,
+        optimized: false
+    });
+}
 function mkInfoWindow(content) {
     return new google.maps.InfoWindow({
       content: content
@@ -34,6 +51,12 @@ function mkMarkerWithContent(map, lat, lng, content) {
     var marker = mkMarker(map, latlng);
     var infowindow = mkInfoWindow(content);
     return addInfoWindowListener(infowindow, map, marker);
+}
+function mkMarkerWithContentIcon(map, lat, lng, content, icon_path, title){
+    var latlng = mkLatLng(lat, lng);
+    var marker = mkMarkerWithIcon(map, latlng, icon_path, title);
+    var infowindow = mkInfoWindow(content);
+    return addInfoWindowListener(infowindow, map, marker);   
 }
 function setMarkerWithContent(map, marker, content) {
     var infowindow = mkInfoWindow(content);
@@ -58,7 +81,7 @@ function initialize(mapState, mapId, centerPos, posMarkers) {
     		id: pos[0],
     		i: 0,
     		position: [pos[1], pos[2]],
-    		marker: mkMarkerWithContent(mapState.map, pos[1], pos[2], pos[3]),
+    		marker: mkMarkerWithContentIcon(mapState.map, pos[1], pos[2], pos[3], pos[4], pos[5]),
     		deltaLat: 0,
     		deltaLng: 0
     	}
