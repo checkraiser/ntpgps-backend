@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   helper_method :user_geo
 
   def index
-    @users = CheckIn.find_by_sql(sql_all)
+    @users = User.all
   end
 
   def show
@@ -105,13 +105,6 @@ class UsersController < ApplicationController
     from check_ins left outer join check_outs on check_ins.user_id=check_outs.user_id and date_trunc('day',check_ins.created_at)=date_trunc('day',check_outs.created_at)
     inner join users on check_ins.user_id=users.id
     where users.id = #{user.id}
-    order by check_ins.created_at"
-  end
-
-  def sql_all
-    @sql ||= "select users.id as uid, users.name as name, check_ins.address as ci_address, check_ins.created_at::date as ci_date, to_char(check_ins.created_at, 'HH24:MI') as ci_time, check_outs.address as co_address, check_outs.created_at::date as co_date, to_char(check_outs.created_at, 'HH24:MI') as co_time 
-    from check_ins left outer join check_outs on check_ins.user_id=check_outs.user_id and date_trunc('day',check_ins.created_at)=date_trunc('day',check_outs.created_at)
-    inner join users on check_ins.user_id=users.id
     order by check_ins.created_at"
   end
 end
