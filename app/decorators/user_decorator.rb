@@ -3,6 +3,14 @@ module UserDecorator
     "<div>#{name}<br/>#{latest_update_time}</div>"
   end
 
+  def lat
+    latitude
+  end
+
+  def lng
+    longitude
+  end
+
   def icon_path
     ActionController::Base.helpers.image_url(online_status_str)
   end

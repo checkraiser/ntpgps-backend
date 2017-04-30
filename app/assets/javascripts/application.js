@@ -14,5 +14,6 @@
 //= require bootstrap-sprockets
 //= require underscore
 //= require jquery.autocomplete
-//= require home
+//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.vi.js
 //= require cable

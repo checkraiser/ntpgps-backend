@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :users do 
     member do 
       get :report
+      get :history
     end
   end
   resources :locations, only: [:index, :create]

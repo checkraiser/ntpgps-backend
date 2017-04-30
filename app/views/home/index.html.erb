@@ -5,10 +5,8 @@
 <div class="row">
     <div id="map"></div>    
 </div>
-<div class="row">
-    <div id="log"></div>
-</div>
-
+<%= render partial: "users/reports", locals: { users: @users } %>
+<%= javascript_include_tag 'home'%>
 <script>
 
 var centerPos = <%= @center.to_json %>;
@@ -27,9 +25,8 @@ var usersState = {
 $(document).ready(function() {
 	initialize(mapState, "map", centerPos, positions);
 	subscribeChannel("LocationsChannel", mapState, App);
-    subscribeDomEvents("map", mapState);
-    initUsersState(usersState, users);
-    renderUsersState(usersState, "#log");
+  subscribeDomEvents("map", mapState);
+  initUsersState(usersState, users);
 });
 </script> 
 <% end %>

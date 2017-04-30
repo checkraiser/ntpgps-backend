@@ -1,0 +1,24 @@
+<table class="table">
+<thead>
+  <td>Name</td>
+  <td>Địa điểm CheckIn</td>
+  <td>Ngày CheckIn</td>
+  <td>Giờ CheckIn</td>
+  <td>Địa điểm CheckOut</td>
+  <td>Ngày CheckOut</td>
+  <td>Giờ CheckOut</td>
+</thead>
+<tbody>
+  <% users.each do |user| %>
+    <tr>
+    <td><%= user[:name] %></td>
+    <td><%= user[:ci_address] %></td>
+    <td><%= user[:ci_date] %></td>
+    <td><%= user[:ci_time] %></td>
+    <td><%= user[:co_address] %></td>
+    <td><%= user[:co_date] %></td>
+    <td><%= user[:co_time] %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>

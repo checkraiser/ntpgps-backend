@@ -1,9 +1,14 @@
 class UsersController < ApplicationController
   before_action :authorize_admin!
   before_action :require_user, only: [:show, :report, :update_groups]
+  helper_method :user_geo
 
   def index
-    @users = User.all
+    @users = CheckIn.find_by_sql(sql_all)
+  end
+
+  def show
+    @reports = CheckIn.find_by_sql(sql(user))
   end
 
   def new
@@ -39,17 +44,7 @@ class UsersController < ApplicationController
   end
 
   def report
-    sql = "select users.id as uid, check_ins.address as ci_address, check_ins.created_at::date as ci_date, to_char(check_ins.created_at, 'HH24:MI') as ci_time, check_outs.address as co_address, check_outs.created_at::date as co_date, to_char(check_outs.created_at, 'HH24:MI') as co_time 
-    from check_ins left outer join check_outs on check_ins.user_id=check_outs.user_id and date_trunc('day',check_ins.created_at)=date_trunc('day',check_outs.created_at)
-    inner join users on check_ins.user_id=users.id
-    where users.id = #{user.id}
-    order by check_ins.created_at"
     @reports = CheckIn.find_by_sql(sql)
-  end
-
-  def show
-    @position = current_position
-    #@center = [current_position[1], current_position[2]]
   end
 
   private
@@ -69,7 +64,28 @@ class UsersController < ApplicationController
   end
 
   def user
-    decorate @user
+    decorate(@user)
+  end
+
+  def user_geo
+    {
+      lat: user.lat,
+      lng: user.lng,
+      info: user.info,
+      icon_path: user.icon_path,
+      title: user.title,
+      histories: histories
+    }
+  end
+
+  def date
+    params[:history_date].present? ? DateTime.strptime(params[:history_date], "%m/%d/%Y") : Date.current
+  end
+
+  def histories
+    user.locations.date(date).pluck(:latitude, :longitude, :address, :id, :created_at).compact.uniq.map do |item|
+      { lat: item[0], lng: item[1], address: item[2], id: item[3], created_at: item[4].strftime("%d/%m/%Y %H:%M") }
+    end
   end
 
   def user_params
@@ -78,5 +94,24 @@ class UsersController < ApplicationController
 
   def group_ids
     params[:group_ids]
+  end
+
+  def geo_users
+    @users ||= User.where(id: user.id)
+  end
+
+  def sql(user)
+    @sql ||= "select users.id as uid, check_ins.address as ci_address, check_ins.created_at::date as ci_date, to_char(check_ins.created_at, 'HH24:MI') as ci_time, check_outs.address as co_address, check_outs.created_at::date as co_date, to_char(check_outs.created_at, 'HH24:MI') as co_time 
+    from check_ins left outer join check_outs on check_ins.user_id=check_outs.user_id and date_trunc('day',check_ins.created_at)=date_trunc('day',check_outs.created_at)
+    inner join users on check_ins.user_id=users.id
+    where users.id = #{user.id}
+    order by check_ins.created_at"
+  end
+
+  def sql_all
+    @sql ||= "select users.id as uid, users.name as name, check_ins.address as ci_address, check_ins.created_at::date as ci_date, to_char(check_ins.created_at, 'HH24:MI') as ci_time, check_outs.address as co_address, check_outs.created_at::date as co_date, to_char(check_outs.created_at, 'HH24:MI') as co_time 
+    from check_ins left outer join check_outs on check_ins.user_id=check_outs.user_id and date_trunc('day',check_ins.created_at)=date_trunc('day',check_outs.created_at)
+    inner join users on check_ins.user_id=users.id
+    order by check_ins.created_at"
   end
 end

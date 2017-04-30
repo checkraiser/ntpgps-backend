@@ -21,9 +21,9 @@ function mkMarker(map, latlng){
 function mkIcon(icon_path){
     return {
         url: icon_path, // url
-        scaledSize: new google.maps.Size(50, 50), // scaled size
-        origin: new google.maps.Point(0,0), // origin
-        anchor: new google.maps.Point(0, 0) // anchor
+        scaledSize: new google.maps.Size(20, 20), // scaled size
+        //origin: new google.maps.Point(0,0), // origin
+        //anchor: new google.maps.Point(0, 0) // anchor
     }
 }
 function mkMarkerWithIcon(map, latlng, icon_path, title) {

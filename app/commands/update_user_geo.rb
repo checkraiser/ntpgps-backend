@@ -8,7 +8,7 @@ class UpdateUserGeo
   end
 
   def call
-  	@user.assign_attributes latitude: @latitude, longitude: @longitude
+  	@user.assign_attributes latitude: @latitude, longitude: @longitude, update_location_at: Time.current
     return @user if @user.save
      errors.merge(@user.errors)
   rescue => e

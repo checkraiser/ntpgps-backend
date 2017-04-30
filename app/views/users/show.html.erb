@@ -1,71 +1,47 @@
 <% if admin? %>
-<div class="row">
-    <div class="col-md-6"><div id="map_user"></div></div>
-    <div class="col-md-6">
-        <%= render "users/info" %>
-        <%= render "users/locations" %>
-    </div>
+<div class="well">
+<%= render partial: "users/detail_panel" %>
 </div>
-<% content_for(:css_include) do %>
-	<style>
-      #map_user {height: 80vh;}
-    </style>
-<% end %>
+<div class="row">
+  <div class="col-md-8">
+    <div id="map"></div>
+  </div>
+  <div class="col-md-4">
+    <%= render partial: "users/histories", locals: { histories: user_geo[:histories] } %>
+  </div>
+</div>
+<div class="row">
+    <div id="log"></div>
+</div>
+<%= javascript_include_tag 'history'%>
 <script>
-var user_id = <%= @user.id %>;
-var map = undefined;
-var marker = undefined;
-var position = <%= @position.to_json %>;
-function initialize() {
-        
-    var latlng = new google.maps.LatLng(position[0], position[1]);
-    var myOptions = {
-        zoom: 4,
-        center: latlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("map_user"), myOptions);
-
-    marker = new google.maps.Marker({
-        position: latlng,
-        map: map,
-        title: "Your current location!"
-    });
-    App.messages = App.cable.subscriptions.create("LocationsChannel", { 
-	  received: function(data){
-	  	if (data.position[0] == user_id) {
-	  	  var result = [data.position[1], data.position[2]];
-          transition(result);
-	  	}	    
-	  }
-	});
+var user = <%= raw user_geo.to_json %>;
+var map = initMap('map', user.lat, user.lng);
+var start = { lat: user.histories[0].lat, lng: user.histories[0].lng };
+var from = user.histories[0];
+var marker = addMarker(map, from.lat, from.lng, user.icon_path, user.title);
+var info = mkInfoWindow(user.info);
+addInfoToMarker(marker, info);
+drawPath(map, user.histories);
+function test() {
+  var histories = user.histories.slice(1, user.histories.length);
+  var offset = 0;
+  setColor("#history-" + from.id, "yellow");
+  histories.forEach(function(history) {
+    setTimeout(function(){      
+      transition(marker, from, history);
+      from = history;
+      setColor("#history-" + from.id, "yellow");
+    }, offset);
+    offset += 4000;
+  });
 }
-
-var numDeltas = 100;
-var delay = 10; //milliseconds
-var i = 0;
-var deltaLat;
-var deltaLng;
-function transition(result){
-    i = 0;
-    deltaLat = (result[0] - position[0])/numDeltas;
-    deltaLng = (result[1] - position[1])/numDeltas;
-    moveMarker();
+function setColor(id, color) {
+  var myElement = document.querySelector(id);
+  myElement.style.backgroundColor = color;
 }
-
-function moveMarker(){
-    position[0] += deltaLat;
-    position[1] += deltaLng;
-    var latlng = new google.maps.LatLng(position[0], position[1]);
-    marker.setPosition(latlng);
-    if(i!=numDeltas){
-        i++;
-        setTimeout(moveMarker, delay);
-    }
+function reset() {
+  window.location.reload();
 }
-$(document).ready(function() {
-    initialize();
-});    
-    
 </script> 
 <% end %>

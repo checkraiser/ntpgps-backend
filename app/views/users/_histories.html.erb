@@ -1,0 +1,14 @@
+<table class="table">
+<thead>
+  <td>STT</td>
+  <td>Address and Time</td>
+</thead>
+<tbody>
+  <% histories.each_with_index do |history, index| %>
+    <tr id="history-<%= history[:id] %>">
+      <td><%= (index+1).to_s %></td>
+      <td><%= history[:address] %><br/><%= history[:created_at] %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
