@@ -1,3 +1,4 @@
+require 'faker'
 namespace :rails do 
 	desc 'stop rails'
 	task :stop => :environment do
