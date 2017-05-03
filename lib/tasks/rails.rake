@@ -15,7 +15,7 @@ namespace :rails do
     CheckOut.where(address: nil).delete_all
     User.all.each do |user|
       l = user.locations.last
-      user.update! name: Faker::Internet.name, latitude: l.latitude, longitude: l.longitude, update_location_at: l.created_at
+      user.update! name: Faker::Name.name, latitude: l.latitude, longitude: l.longitude, update_location_at: l.created_at
     end
   end
 end
