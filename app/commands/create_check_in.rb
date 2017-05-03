@@ -9,9 +9,9 @@ class CreateCheckIn
 
   def call
   	check_in = @user.check_ins.build  latitude: @latitude,
-  						   			  longitude: @longitude
+  						   			                longitude: @longitude
     if check_in.save
-      UpdateUserGeo.call(@user, @latitude, @longitude)
+      UpdateUserGeo.call(@user, @latitude, @longitude, nil)
       return check_in
     else
       check_in.errors

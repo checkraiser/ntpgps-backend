@@ -11,7 +11,7 @@ class CreateCheckOut
   	check_out = @user.check_outs.build  latitude: @latitude,
   						   			                 longitude: @longitude
     if check_out.save
-      UpdateUserGeo.call(@user, @latitude, @longitude)
+      UpdateUserGeo.call(@user, @latitude, @longitude, nil)
       return check_out
     else
       errors.merge(check_out.errors)

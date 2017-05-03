@@ -1,23 +1,31 @@
-<table class="table">
-<thead>
-  <td>STT</td>
-  <td>Tên</td>
-  <td>Địa điểm CheckIn</td>
-  <td>Thời gian CheckIn</td>
-  <td>Địa điểm CheckOut</td>
-  <td>Thời gian CheckOut</td>
-  <td>Trạng thái</td>
-  <td>Pin(%)</td>
+<table class="table table-bordered">
+<col width="3%">
+<col width="15%">
+<col width="12%">
+<col width="20%">
+<col width="12%">
+<col width="20%">
+<col width="8%">
+<col width="15%">
+<thead bgcolor='#337ab7'>
+  <td align="center"><font color="#fff">STT</font></td>
+  <td align="center"><font color="#fff">Nhân viên</font></td>
+  <td align="center"><font color="#fff">CheckIn</font></td>
+  <td align="center"><font color="#fff">Địa điểm CheckIn</font></td>
+  <td align="center"><font color="#fff">CheckOut</font></td>
+  <td align="center"><font color="#fff">Địa điểm CheckOut</font></td>
+  <td align="center"><font color="#fff">Trạng thái</font></td>
+  <td align="center"><font color="#fff">Pin(%)</font></td>
 </thead>
 <tbody>
   <% users.each_with_index do |user, index| %>
     <tr>
     <td><%= (index + 1).to_s %></td>
     <td><%= user[:name] %></td>
-    <td><%= user[:ci_address] %></td>
     <td><%= "#{user[:ci_date]} #{user[:ci_time]}" %></td>
-    <td><%= user[:co_address] %></td>
+    <td><%= user[:ci_address] %></td>
     <td><%= "#{user[:co_date]} #{user[:co_time]}" %></td>
+    <td><%= user[:co_address] %></td>
     <td><%= user[:online_status] == false ? 'offline' : 'online' %></td>
     <td><%= user[:percentage] %></td>
     </tr>

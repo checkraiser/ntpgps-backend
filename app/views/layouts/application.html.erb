@@ -18,11 +18,29 @@
     </style>
   </head>
 
-  <body>
-  	<%= render 'layouts/header' %>
-  	<%= render 'layouts/flash' %>
-    <div class="container">
-      <%= yield %>
+  <body style="background-color: #FEFFFF;">
+  <hr style="height:5px;border:none;color:#337ab7;background-color:#337ab7;margin-top:1px;" />
+    <div class='container' style='padding-left: 0px; padding-right: 0px;'>
+      <div class='row' style='height: 75px; margin-top: 10px;'>
+        <div class='col-md-4'>
+          <strong><font color='#ff0000'>CTCP NHỰA THIẾU NIÊN TIỀN PHONG</font></strong><br/>
+          PHÒNG THỊ TRƯỜNG
+        </div>
+        <div class='col-md-8'>
+      	  <%= render 'layouts/menu' %>
+        </div>
+      </div>
+      <div class='row'>
+        <%= render 'layouts/toolbar' %>
+      </div>
+      <div class='row'>
+      	<%= render 'layouts/flash' %>
+      </div>
+      <div class='row'>
+        <div class="container">
+          <%= yield %>
+        </div>
+      </div>
     </div>
     <%= yield :js_include %>    
   </body>
