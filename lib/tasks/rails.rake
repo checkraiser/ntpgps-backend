@@ -7,7 +7,7 @@ namespace :rails do
 	    File.delete pid_file
 	end
 
-  desc 'clean locations' do
+  desc 'clean locations'
   task :clean_location => :environment do
     Location.where(address: nil).delete_all
     CheckIn.where(address: nil).delete_all
