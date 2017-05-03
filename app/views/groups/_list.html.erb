@@ -1,0 +1,46 @@
+<table class="table table-bordered">
+<col width="10%">
+<col width="70%">
+<col width="20%">
+<thead  bgcolor='#026c48'>
+  <td align="center"><font color="#fff">STT</font></td>
+  <td align="center"><font color="#fff">Tên</font></td>
+  <td align="center"><font color="#fff">Sửa</font></td>
+</thead>
+<tbody>
+  <% groups.each_with_index do |group, index| %>
+    <tr id="group-<%= group.id %>">
+      <td align="center"><%= (index+1).to_s %></td>
+      <td><%= group.name %></td>
+      <td align="center">
+        <span style="cursor: pointer;" data-toggle="modal" data-target="#group-modal-<%= group.id %>" class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+      </td>
+      <div class="modal fade" id="group-modal-<%= group.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Sửa tên nhóm <%= group.name %></h4>
+            </div>
+            <div class="modal-body">
+              <%= simple_form_for(group, class: 'form') do |f| %>
+                <div class="row">
+                  <div class="col-md-5">
+                    <%= f.input :name, class: 'form-control' %>
+                  </div>
+                  <div class="col-md-7">
+                    <%= f.button :submit, class: 'btn btn-primary', value: 'Cập nhật' %>
+                  </div>
+                </div>                  
+              <% end %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tr>
+  <% end %>
+</tbody>
+</table>

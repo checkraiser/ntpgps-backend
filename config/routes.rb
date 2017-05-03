@@ -21,4 +21,6 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   get '/current_info', to: 'profile#current_info'
   get '/history_info', to: 'profile#history_info'
+
+  resources :groups, only: [:index, :create, :update]
 end
