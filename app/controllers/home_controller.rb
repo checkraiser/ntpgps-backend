@@ -3,6 +3,7 @@ class HomeController < ApplicationController
     if logged_in?
   	   authorize_admin! 
        load_data
+       @home_page = true
     end    
   end
 
@@ -11,7 +12,7 @@ class HomeController < ApplicationController
   def load_data
     @positions ||= pluck(decorate(User.all), :id, :latitude, :longitude, :info, :icon_path, :title)
     @center ||= Geocoder::Calculations.geographic_center User.pluck(:latitude, :longitude)
-    @users ||= CheckIn.find_by_sql(sql_all)
+    @users ||= Kaminari.paginate_array(CheckIn.find_by_sql(sql_all)).page(params[:page]).per(20)
     @online ||= User.online.count
     @offline ||= User.offline.count
   end

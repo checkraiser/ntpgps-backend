@@ -1,15 +1,36 @@
-<div class="row">
-  <div class="col-md-4">
-<button class="btn btn-default" onClick="test()">History</button>
-<button class="btn btn-default" onClick="reset()">Reset</button>
+<div class="row">  
+  <div class="col-md-3">
+    Lịch sử di chuyển nhân viên:<br/>
+    <strong><%= user.name_upcase %></strong>
   </div>
-  <div class="col-md-8">
-    <form class="form-horizontal" method="get" action="<%= user_path(@user) %>">
-      <label for="from_date">Từ ngày</label>
-      <input id="from_date" type="text" data-provide='datepicker' name="from_date" value="<%= params[:from_date].present? ? params[:from_date] : Date.current.strftime("%m/%d/%Y") %>" >
-      <label for="to_date">Đến ngày</label>
-      <input id="to_date" type="text" data-provide='datepicker' name="to_date" value="<%= params[:to_date].present? ? params[:to_date] : Date.current.strftime("%m/%d/%Y") %>" >
-      <input type="submit" value="Chọn ngày">
-    </form>
+  <div class="col-md-7">
+    <div class="row">
+      <form class="form-horizontal" method="get" action="<%= user_path(@user) %>">
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-5"><label style="padding-top: 6px;" for="from_date">Từ:</label></div>
+            <div class="col-md-7">
+              <input class="form-control" id="from_date" type="text" data-provide='datepicker' name="from_date" value="<%= params[:from_date].present? ? params[:from_date] : Date.current.strftime("%m/%d/%Y") %>" >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-5">
+              <label style="padding-top: 6px;" for="to_date">Đến:</label>
+            </div>
+            <div class="col-md-7">
+              <input class="form-control" id="to_date" type="text" data-provide='datepicker' name="to_date" value="<%= params[:to_date].present? ? params[:to_date] : Date.current.strftime("%m/%d/%Y") %>" >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <input type="submit" value="Hiển thị", class="btn btn-default">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-primary" onClick="test()">Xem lịch sử di chuyển</button>
   </div>
 </div>

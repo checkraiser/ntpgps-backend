@@ -19,26 +19,40 @@
   </head>
 
   <body style="background-color: #FEFFFF;">
-  <hr style="height:5px;border:none;color:#337ab7;background-color:#337ab7;margin-top:1px;" />
     <div class='container' style='padding-left: 0px; padding-right: 0px;'>
-      <div class='row' style='height: 75px; margin-top: 10px;'>
-        <div class='col-md-4'>
-          <strong><font color='#ff0000'>CTCP NHỰA THIẾU NIÊN TIỀN PHONG</font></strong><br/>
-          PHÒNG THỊ TRƯỜNG
-        </div>
-        <div class='col-md-8'>
-      	  <%= render 'layouts/menu' %>
+      <div class='row' style='margin-top: -2px; margin-bottom: -10px;'>
+        <div class='col-md-8 col-md-offset-4'>
+          <%= render 'layouts/menu' %>
         </div>
       </div>
-      <div class='row'>
+      <div class='bannerimg' style='height: 75px; margin-top: 10px;'>        
+      </div>
+      <% if @home_page %>
+        <div class='row'>      
         <%= render 'layouts/toolbar' %>
       </div>
+      <% end %>
       <div class='row'>
       	<%= render 'layouts/flash' %>
       </div>
       <div class='row'>
         <div class="container">
           <%= yield %>
+        </div>
+      </div>
+      <div class="copyright bgimg">
+        <div class="container">
+          <div class="col-md-6">
+            <p>@ Copyrights 2006 by Tien Phong Plastic Joint-Stock company</p>
+          </div>
+          <div class="col-md-6">
+            <ul class="bottom_ul">
+              <li><a href="http://www.nhuatienphong.vn/pg-16593/san-pham?MenuID=9052">Sản phẩm</a></li>
+              <li><a href="http://www.nhuatienphong.vn/pg-16594/bang-gia?MenuID=9053">Bảng giá</a></li>
+              <li><a href="http://www.nhuatienphong.vn/pg-16595/hổ-trợ-khách-hàng?MenuID=9054">Hỗ trợ khách hàng</a></li>
+              <li><a href="http://mail.nhuatienphong.vn:3000/">Email</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

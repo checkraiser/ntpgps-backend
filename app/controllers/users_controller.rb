@@ -112,4 +112,6 @@ class UsersController < ApplicationController
     where users.id = #{user.id}
     order by check_ins.created_at"
   end
+
+  helper_method :user
 end

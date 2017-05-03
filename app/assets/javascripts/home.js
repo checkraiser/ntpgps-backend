@@ -64,7 +64,7 @@ function setMarkerWithContent(map, marker, content) {
 }
 function mkMap(domid, center){
 	var myOptions = {
-        zoom: 8,
+        zoom: 4,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     return new google.maps.Map(document.getElementById(domid), myOptions);

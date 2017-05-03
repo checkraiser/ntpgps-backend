@@ -1,8 +1,8 @@
 Geocoder.configure(
   # geocoding service
-  lookup: :location_iq,
-  api_key: "963093e900751d875975",
-
+  lookup: :google,
+  api_key: "AIzaSyDY4biMP0tttTQPBbqVej3P0rxBby_kKvY",
+  use_https: true,
   # geocoding service request timeout (in seconds)
   timeout: 3,
 
