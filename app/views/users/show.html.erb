@@ -16,32 +16,36 @@
 <%= javascript_include_tag 'history'%>
 <script>
 var user = <%= raw user_geo.to_json %>;
-var map = initMap('map', user.lat, user.lng);
-var start = { lat: user.histories[0].lat, lng: user.histories[0].lng };
-var from = user.histories[0];
-var marker = addMarker(map, from.lat, from.lng, user.icon_path, user.title);
-var info = mkInfoWindow(user.info);
-addInfoToMarker(marker, info);
-drawPath(map, user.histories);
-function test() {
-  var histories = user.histories.slice(1, user.histories.length);
-  var offset = 0;
-  setColor("#history-" + from.id, "yellow");
-  histories.forEach(function(history) {
-    setTimeout(function(){      
-      transition(marker, from, history);
-      from = history;
-      setColor("#history-" + from.id, "yellow");
-    }, offset);
-    offset += 4000;
-  });
+console.log(user);
+if (user.histories.length > 0) {
+  var map = initMap('map', user.lat, user.lng);
+  var start = { lat: user.histories[0].lat, lng: user.histories[0].lng };
+  var from = user.histories[0];
+  var marker = addMarker(map, from.lat, from.lng, user.icon_path, user.title);
+  var info = mkInfoWindow(user.info);
+  addInfoToMarker(marker, info);
+  drawPath(map, user.histories);
+  function test() {
+    var histories = user.histories.slice(1, user.histories.length);
+    var offset = 0;
+    setColor("#history-" + from.id, "yellow");
+    histories.forEach(function(history) {
+      setTimeout(function(){      
+        transition(marker, from, history);
+        from = history;
+        setColor("#history-" + from.id, "yellow");
+      }, offset);
+      offset += 3000;
+    });
+  }
+  function setColor(id, color) {
+    var myElement = document.querySelector(id);
+    myElement.style.backgroundColor = color;
+  }
+  function reset() {
+    window.location.reload();
+  }
 }
-function setColor(id, color) {
-  var myElement = document.querySelector(id);
-  myElement.style.backgroundColor = color;
-}
-function reset() {
-  window.location.reload();
-}
+
 </script> 
 <% end %>

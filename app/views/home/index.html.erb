@@ -1,10 +1,6 @@
 <% if admin? %>
-<div class="well">
-<%= render partial: "layouts/panels" %>
-</div>
-<div class="row">
-    <div id="map"></div>    
-</div>
+<div id="map"></div>    
+<br/>
 <%= render partial: "users/reports", locals: { users: @users } %>
 <%= javascript_include_tag 'home'%>
 <script>

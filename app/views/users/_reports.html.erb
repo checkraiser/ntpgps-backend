@@ -1,23 +1,25 @@
 <table class="table">
 <thead>
-  <td>Name</td>
+  <td>STT</td>
+  <td>Tên</td>
   <td>Địa điểm CheckIn</td>
-  <td>Ngày CheckIn</td>
-  <td>Giờ CheckIn</td>
+  <td>Thời gian CheckIn</td>
   <td>Địa điểm CheckOut</td>
-  <td>Ngày CheckOut</td>
-  <td>Giờ CheckOut</td>
+  <td>Thời gian CheckOut</td>
+  <td>Trạng thái</td>
+  <td>Pin(%)</td>
 </thead>
 <tbody>
-  <% users.each do |user| %>
+  <% users.each_with_index do |user, index| %>
     <tr>
+    <td><%= (index + 1).to_s %></td>
     <td><%= user[:name] %></td>
     <td><%= user[:ci_address] %></td>
-    <td><%= user[:ci_date] %></td>
-    <td><%= user[:ci_time] %></td>
+    <td><%= "#{user[:ci_date]} #{user[:ci_time]}" %></td>
     <td><%= user[:co_address] %></td>
-    <td><%= user[:co_date] %></td>
-    <td><%= user[:co_time] %></td>
+    <td><%= "#{user[:co_date]} #{user[:co_time]}" %></td>
+    <td><%= user[:online_status] == false ? 'offline' : 'online' %></td>
+    <td><%= user[:percentage] %></td>
     </tr>
   <% end %>
 </tbody>

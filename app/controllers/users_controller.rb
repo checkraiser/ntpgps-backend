@@ -78,12 +78,17 @@ class UsersController < ApplicationController
     }
   end
 
-  def date
-    params[:history_date].present? ? DateTime.strptime(params[:history_date], "%m/%d/%Y") : Date.current
+  def from_date
+    params[:from_date].present? ? DateTime.strptime(params[:from_date], "%m/%d/%Y") : Date.current    
+  end
+
+  def to_date
+    params[:to_date].present? ? DateTime.strptime(params[:to_date], "%m/%d/%Y") : Date.current
   end
 
   def histories
-    user.locations.date(date).pluck(:latitude, :longitude, :address, :id, :created_at).compact.uniq.map do |item|
+    p user.locations.date(from_date, to_date)
+    user.locations.date(from_date, to_date).pluck(:latitude, :longitude, :address, :id, :created_at).compact.uniq.map do |item|
       { lat: item[0], lng: item[1], address: item[2], id: item[3], created_at: item[4].strftime("%d/%m/%Y %H:%M") }
     end
   end

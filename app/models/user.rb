@@ -11,6 +11,8 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true
 
-  scope :admin, -> { where(admin: true) }
+  scope :admin,   -> { where(admin: true) }
+  scope :online,  -> { where(online_status: true) }
+  scope :offline, -> { where(online_status: false) }
 end
 

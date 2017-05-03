@@ -16,4 +16,6 @@
 //= require jquery.autocomplete
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.vi.js
+//= require select2
+//= require select2_locale_vi
 //= require cable

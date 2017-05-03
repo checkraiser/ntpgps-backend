@@ -49,6 +49,7 @@ gem 'axlsx_rails'
 gem 'active_decorator'
 gem 'whenever', :require => false
 gem 'bootstrap-datepicker-rails'
+gem 'select2-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -6,5 +6,5 @@ class Location < ApplicationRecord
   validates :latitude, presence: true
   validates :longitude, presence: true
 
-  scope :date, -> (date) { where('created_at BETWEEN ? AND ?', date.beginning_of_day, date.end_of_day) }
+  scope :date, -> (from_date, to_date) { where('created_at BETWEEN ? AND ?', from_date.beginning_of_day, to_date.end_of_day) }
 end

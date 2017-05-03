@@ -19,4 +19,6 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
   get '/login', to: 'sessions#new'
+  get '/current_info', to: 'profile#current_info'
+  get '/history_info', to: 'profile#history_info'
 end

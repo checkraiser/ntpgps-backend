@@ -52,7 +52,7 @@ function mkMarkerWithIcon(map, latlng, icon_path, title) {
 }
 
 var numDeltas = 200;
-var delay = 20; //milliseconds
+var delay = 15; //milliseconds
 function transition(marker, from, to){
     var i = 0;
     var deltaLat = (to.lat - from.lat)/numDeltas;

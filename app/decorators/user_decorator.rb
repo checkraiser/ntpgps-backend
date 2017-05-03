@@ -1,6 +1,6 @@
 module UserDecorator
   def info
-    "<div>#{name}<br/>#{latest_update_time}</div>"
+    "#{name} - #{latest_update_time}</div>"
   end
 
   def lat
@@ -16,8 +16,8 @@ module UserDecorator
   end
 
   def online_status_str
-    return "online.gif" if online_status
-    "offline.gif"
+    return 'online.gif' if online_status
+    'offline.gif'
   end
 
   def latest_update_time

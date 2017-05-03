@@ -3,13 +3,11 @@ class AuthenticationController < ApplicationController
   before_action :require_refresh_token, only: [:refresh_token]
 
   def authenticate
-  	require_json_request!
-
     command = AuthenticateUser.call(params[:email], params[:password])
     if command.success? 
-      render json: { token: command.result } 
+      render json: { token: command.result }
     else 
-      render json: { error: command.errors }, status: :unauthorized 
+      render json: { error: command.errors }, status: :unauthorized
     end
   end
 

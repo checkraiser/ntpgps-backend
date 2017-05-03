@@ -5,8 +5,11 @@
   </div>
   <div class="col-md-8">
     <form class="form-horizontal" method="get" action="<%= user_path(@user) %>">
-      <input type="text" data-provide='datepicker' name="history_date" value="<%= params[:history_date].present? ? params[:history_date] : Date.current.strftime("%m/%d/%Y") %>" >
-      <input type="submit" value="Choose">
+      <label for="from_date">Từ ngày</label>
+      <input id="from_date" type="text" data-provide='datepicker' name="from_date" value="<%= params[:from_date].present? ? params[:from_date] : Date.current.strftime("%m/%d/%Y") %>" >
+      <label for="to_date">Đến ngày</label>
+      <input id="to_date" type="text" data-provide='datepicker' name="to_date" value="<%= params[:to_date].present? ? params[:to_date] : Date.current.strftime("%m/%d/%Y") %>" >
+      <input type="submit" value="Chọn ngày">
     </form>
   </div>
 </div>
