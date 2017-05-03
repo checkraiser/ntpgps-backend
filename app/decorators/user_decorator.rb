@@ -1,6 +1,6 @@
 module UserDecorator
   def info
-    "#{name} - #{latest_update_time}</div>"
+    "#{name} - #{latest_update_time}"
   end
 
   def lat
