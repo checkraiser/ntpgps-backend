@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       session[:user_id] = command.result.id
       redirect_to root_path, :notice => "Welcome back"
     else 
-      flash.now.alert = "Invalid email or password"
+      flash.now.alert = "Tài khoản không đúng. Vui lòng thử lại."
       render "new"
     end
   end
