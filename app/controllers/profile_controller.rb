@@ -57,7 +57,7 @@ class ProfileController < ApplicationController
   end
 
   def avatar
-    @avatar ||= ActionController::Base.helpers.asset_url('avatar.jpg')
+    @avatar ||= "http://gps.nhuatienphong.vn#{ActionController::Base.helpers.image_path('avatar.jpg')}"
   end
 
   def empty_info
