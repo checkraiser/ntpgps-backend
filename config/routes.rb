@@ -11,7 +11,9 @@ Rails.application.routes.draw do
       get :history
     end
   end
-  resources :locations, only: [:index, :create]
+  resources :locations, only: [:index, :create] do
+    post :queue, on: :collection
+  end
   resources :check_ins, only: [:index, :create]
   resources :check_outs, only: [:index, :create]
   post 'authenticate', to: 'authentication#authenticate'

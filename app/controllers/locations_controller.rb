@@ -17,6 +17,18 @@ class LocationsController < ApplicationController
     end
   end
 
+  def queue
+    command = CreateQueueLocation.call(
+      current_user, params[:latitude], params[:longitude], params[:percentage],
+      params[:time]
+    )
+    if command.success?
+        head 204
+    else
+      render json: { error: command.errors }, status: 400 
+    end
+  end
+
   private
 
   def locations
