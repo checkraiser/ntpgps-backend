@@ -12,7 +12,11 @@ module Authentication
 
   def authenticate_api_request 
   	@current_user = AuthorizeApiRequest.call(request.headers).result 
-  	render json: { error: 'Not Authorized' }, status: 401 unless logged_in?
+    unless logged_in?
+  	  render(json: { error: 'Not Authorized' }, status: 401)  and return
+    end
+  rescue => e
+    render(json: { error: 'Not Authorized' }, status: 401) and return
   end
 
   def login_required

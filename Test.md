@@ -1,0 +1,1 @@
+curl -H 'Content-Type: application/json' -H 'Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE0OTY0MDc0ODZ9.7qAkmW4hrF6OrDFCQzIX-cEUSkTRcGv_eSXtSXuUBXM' localhost:3000/history_info
