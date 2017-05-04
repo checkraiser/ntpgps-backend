@@ -20,15 +20,18 @@
 
   <body style="background-color: #FEFFFF;">
     <div class='container' style='padding-left: 0px; padding-right: 0px;'>
-      <div class='row' style='margin-top: -2px; margin-bottom: -10px;'>
-        <div class='col-md-8 col-md-offset-4'>
-          <%= render 'layouts/menu' %>
+      <% if logged_in? %>
+        <div class='row' style='margin-top: -2px; margin-bottom: -10px;'>
+          <div class='col-md-8 col-md-offset-4'>
+            <%= render 'layouts/menu' %>
+          </div>
         </div>
+      <% end %>
       </div>
       <div class='bannerimg' style='height: 75px; margin-top: 10px;'>        
       </div>
       <% if @home_page %>
-        <div class='row'>      
+        <div class='container'>      
         <%= render 'layouts/toolbar' %>
       </div>
       <% end %>
@@ -40,6 +43,7 @@
           <%= yield %>
         </div>
       </div>
+      <br />
       <div class="copyright bgimg">
         <div class="container">
           <div class="col-md-6">
