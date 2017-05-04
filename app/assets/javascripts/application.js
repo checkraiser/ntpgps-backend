@@ -18,4 +18,5 @@
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.vi.js
 //= require select2
 //= require select2_locale_vi
+//= require select2_simple_form
 //= require cable

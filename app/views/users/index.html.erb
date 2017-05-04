@@ -1,27 +1,7 @@
-<%= render "users/panel" %>
-<table class="table">
-<thead>
-  <td>Name</td>
-  <td>Email</td>
-  <td>Latitude</td>
-  <td>Longitude</td>
-  <td>Address</td>
-  <td>Admin</td>
-  <td>Show</td>
-  <td>Report</td>
-</thead>
-<tbody>
-  <% @users.each do |user| %>
-  	<tr>
-  	<td><%= user.name %></td>
-  	<td><%= user.email %></td>
-  	<td><%= user.latitude %></td>
-  	<td><%= user.longitude %></td>
-  	<td><%= user.address %></td>
-  	<td><%= user.admin? %></td>
-  	<td><%= link_to user.name, user_path(user) %>
-    <td><%= link_to 'Report', report_user_path(user, format: :xlsx) %>
-  	</tr>
-  <% end %>
-</tbody>
-</table>
+<%= render partial: "users/list", locals: { users: @users } %>
+
+<script>
+$(document).ready(function() { 
+    $("select").select2({ dropdownAutoWidth : true });           
+});
+</script>

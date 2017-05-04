@@ -1,0 +1,55 @@
+<table class="table table-bordered">
+<col width="5%">
+<col width="30%">
+<col width="30%">
+<col width="30%">
+<col width="5%">
+<thead  bgcolor='#026c48'>
+  <td align="center"><font color="#fff">STT</font></td>
+  <td align="center"><font color="#fff">Nhân viên</font></td>
+  <td align="center"><font color="#fff">Email</font></td>
+  <td align="center"><font color="#fff">Nhóm</font></td>
+  <td align="center"><font color="#fff">Sửa</font></td>
+</thead>
+<tbody>
+  <% users.each_with_index do |user, index| %>
+    <tr id="user-<%= user.id %>">
+      <td align="center"><%= (index+1).to_s %></td>
+      <td><%= user.name %></td>
+      <td><%= user.email %></td>
+      <td><%= render partial: "users/groups", locals: { groups: user.groups } %></td>
+      <td align="center">
+        <span style="cursor: pointer;" data-toggle="modal" data-target="#user-modal-<%= user.id %>" class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+      </td>
+      <div class="modal fade" id="user-modal-<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Sửa <%= user.name %></h4>
+            </div>
+            <div class="modal-body">
+              <%= simple_form_for(user, class: 'form') do |f| %>
+                <div class="row">
+                  <%= f.input :name, class: 'form-control' %>
+                </div>         
+                <div class="row">
+                  <%= f.input :groups, as: :select2, collection: Group.all, multiple: true %>
+                </div>         
+                <div class="row">
+                  <%= f.button :submit, class: 'btn btn-primary', value: 'Cập nhật' %>
+                </div>
+                </div>                  
+              <% end %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+<%= paginate users, :theme => 'twitter-bootstrap-3' %>

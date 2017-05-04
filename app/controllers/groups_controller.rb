@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
     if @group.save
       redirect_to groups_path, notice: "Đã tạo nhóm thành công"
     else
-      redirect_to groups_path, error: "Đã có lỗi xảy ra, vui lòng thử lại."
+      redirect_to groups_path, danger: "Đã có lỗi xảy ra, vui lòng thử lại."
     end
   end
 
@@ -23,7 +23,7 @@ class GroupsController < ApplicationController
     if @group.save
       redirect_to groups_path, notice: "Đã cập nhật thành công"
     else
-      redirect_to groups_path, error: "Đã có lỗi xảy ra, vui lòng thử lại."
+      redirect_to groups_path, danger: "Đã có lỗi xảy ra, vui lòng thử lại."
     end
   end
 

@@ -4,11 +4,26 @@ class UsersController < ApplicationController
   helper_method :user_geo
 
   def index
-    @users = User.all
+    @users = User.includes(user_groups: :group).page(params[:page]).per(20)
   end
 
   def show
     @reports = CheckIn.find_by_sql(sql(user))
+  end
+
+  def update
+    @user = User.find_by_id(params[:id])
+    if @user
+      @user.assign_attributes update_user_params.except(:groups)
+      if @user.save
+        update_user_groups(@user)
+        redirect_to users_path, notice: "Đã cập nhật thành công."
+      else
+        redirect_to users_path, notice: "Không tìm thấy nhân viên này."
+      end
+    else
+      redirect_to users_path, notice: "Không tìm thấy nhân viên này."
+    end
   end
 
   def new
@@ -111,6 +126,21 @@ class UsersController < ApplicationController
     inner join users on check_ins.user_id=users.id
     where users.id = #{user.id}
     order by check_ins.created_at"
+  end
+
+  def update_user_params
+    params.require(:user).permit(:name, :groups => [])
+  end
+
+  def update_user_groups(user)
+    old_group_ids = user.group_ids
+    group_ids = update_user_params.fetch(:groups).select { |t| !t.empty? }.map(&:to_i)
+    deleted_group_ids = old_group_ids - group_ids
+    created_group_ids = group_ids - old_group_ids
+    UserGroup.where(user_id: user.id, group_id: deleted_group_ids).delete_all
+    created_group_ids.each do |group_id|
+      UserGroup.create!(user_id: user.id, group_id: group_id)
+    end
   end
 
   helper_method :user
