@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.includes(user_groups: :group).page(params[:page]).per(20)
+    @user = User.new
   end
 
   def show
@@ -39,6 +40,7 @@ class UsersController < ApplicationController
       user_params[:admin]
     )
     if command.success?
+      update_user_groups(command.result)
       redirect_to users_path, success: "User created"
     else
       @form_error = command.errors
@@ -109,7 +111,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :address, :admin)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :address, :admin, :groups => [])
   end
 
   def group_ids

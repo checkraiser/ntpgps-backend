@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :groups, through: :user_groups
 
   validates :name, presence: true
-  validates :email, presence: true
+  validates :email, presence: true, uniqueness: true
 
   scope :not_admin, -> { where.not(admin: true) }
   scope :admin,     -> { where(admin: true) }
