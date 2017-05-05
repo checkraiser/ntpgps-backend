@@ -104,7 +104,6 @@ class UsersController < ApplicationController
   end
 
   def histories
-    p user.locations.date(from_date, to_date)
     user.locations.date(from_date, to_date).pluck(:latitude, :longitude, :address, :id, :created_at).compact.uniq.map do |item|
       { lat: item[0], lng: item[1], address: item[2], id: item[3], created_at: item[4].strftime("%d/%m/%Y %H:%M") }
     end

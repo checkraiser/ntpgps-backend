@@ -36,7 +36,8 @@ class HomeController < ApplicationController
 
   def sql_all(query)
     @sql ||= "select users.id as uid, users.name as name, 
-    check_ins.address as ci_address, check_ins.created_at::date as ci_date, 
+    check_ins.address as ci_address, 
+    to_char(check_ins.created_at::date, 'DD/MM/YYYY') as ci_date, 
     to_char(check_ins.created_at, 'HH24:MI') as ci_time, check_outs.address as co_address, 
     check_outs.created_at::date as co_date, to_char(check_outs.created_at, 'HH24:MI') as co_time,
     users.online_status, users.percentage
@@ -48,7 +49,8 @@ class HomeController < ApplicationController
 
   def sql_with_group_id(group_id, query)
     @sql ||= "select users.id as uid, users.name as name, 
-    check_ins.address as ci_address, check_ins.created_at::date as ci_date, 
+    check_ins.address as ci_address, 
+    to_char(check_ins.created_at::date, 'DD/MM/YYYY') as ci_date, 
     to_char(check_ins.created_at, 'HH24:MI') as ci_time, check_outs.address as co_address, 
     check_outs.created_at::date as co_date, to_char(check_outs.created_at, 'HH24:MI') as co_time,
     users.online_status, users.percentage
