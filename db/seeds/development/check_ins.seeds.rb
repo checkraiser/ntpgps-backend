@@ -9,7 +9,7 @@ def latest_update_time(user)
 end
 
 def info(user)
-  "#{user.name} - #{latest_update_time(user)}</div>"
+  "#{user.name} - #{latest_update_time(user)}"
 end
 after "development:users" do
   today = Time.current
@@ -19,15 +19,7 @@ after "development:users" do
     10.times do |t|
       lat2 = range(18, 22)
       lng2 = range(106, 107)
-      ci = u.check_ins.create!  latitude: lat2,
-                                longitude: lng2,
-                                created_at: (today + t.days)
-      CreateLocation.call(u, lat2, lng2, 100)     
-      ActionCable.server.broadcast 'locations',
-          position: [u.id, lat2, lng2],
-          center: Geocoder::Calculations.geographic_center(User.pluck(:latitude, :longitude)),
-          info: info(u)
-      p ci                             
+      CreateCheckIn.call u, lat2, lng2, today + (t.days)
     end
   end
 end

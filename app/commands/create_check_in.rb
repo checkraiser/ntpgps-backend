@@ -15,9 +15,11 @@ class CreateCheckIn
                    online_status: true,
                    update_location_at: update_location_at
     	check_in = user.check_ins.create!  latitude: latitude,
-    						   			                 longitude: longitude
+    						   			                 longitude: longitude,
+                                         created_at: update_location_at
       user.locations.create! latitude: latitude,
-                                         longitude: longitude   
+                             longitude: longitude,
+                             created_at: update_location_at
     end
   rescue => e
   	errors.add :create_check_in, e.message

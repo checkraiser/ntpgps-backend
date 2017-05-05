@@ -24,7 +24,8 @@ class CreateLocation
     Location.transaction do 
       location = user.locations.create!  latitude: latitude,
                                          longitude: longitude,
-                                         percentage: percentage
+                                         percentage: percentage,
+                                         created_at: update_location_at
                                          
       user.update! latitude: latitude,
                    longitude: longitude,
