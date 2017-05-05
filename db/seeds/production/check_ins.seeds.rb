@@ -11,7 +11,10 @@ end
 def info(user)
   "#{user.name} - #{latest_update_time(user)}"
 end
-after "development:users" do
+after "production:users" do
+  CheckIn.delete_all
+  CheckOut.delete_all
+  Location.delete_all
   today = Time.current
   lat = 20.870855
   lng = 106.7102486
