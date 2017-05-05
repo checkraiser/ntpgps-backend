@@ -15,5 +15,6 @@ class User < ApplicationRecord
   scope :admin,     -> { where(admin: true) }
   scope :online,    -> { where(online_status: true) }
   scope :offline,   -> { where(online_status: false) }
+  scope :search,    ->  (query) { where("name LIKE ? OR email LIKE ?", "%#{query}%", "%#{query}%") }
 end
 

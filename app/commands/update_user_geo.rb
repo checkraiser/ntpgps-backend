@@ -14,9 +14,10 @@ class UpdateUserGeo
                             longitude: @longitude,                             
                             online_status: !old_online_status,
                             update_location_at: update_location_at
-    @user.percentage = @percentage if percentage
-    return @user if @user.save
-     errors.merge(@user.errors)
+    @user.percentage = @percentage if percentage    
+    @user.save!
+    p @user
+    @user
   rescue => e
   	errors.add :update_user_geo, e.message
   end
