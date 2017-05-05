@@ -96,11 +96,11 @@ class UsersController < ApplicationController
   end
 
   def from_date
-    params[:from_date].present? ? DateTime.strptime(params[:from_date], "%m/%d/%Y") : Date.current    
+    params[:from_date].present? ? DateTime.strptime(params[:from_date], "%d/%m/%Y") : Date.current    
   end
 
   def to_date
-    params[:to_date].present? ? DateTime.strptime(params[:to_date], "%m/%d/%Y") : Date.current
+    params[:to_date].present? ? DateTime.strptime(params[:to_date], "%d/%m/%Y") : Date.current
   end
 
   def histories
