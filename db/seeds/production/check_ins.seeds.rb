@@ -21,6 +21,6 @@ User.all.each do |u|
   10.times do |t|
     lat2 = range(18, 22)
     lng2 = range(106, 107)
-    CreateCheckIn.call u, lat2, lng2, today + (t.days)
+    CreateCheckIn.call u, lat2, lng2, today - (t.days)
   end
 end
