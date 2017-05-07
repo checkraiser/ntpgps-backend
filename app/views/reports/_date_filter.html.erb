@@ -1,0 +1,29 @@
+<div class="well">
+  <div class="row">  
+    <div class="col-md-3">
+      Báo cáo:<br/>
+    </div>
+    <div class="col-md-5">
+      <div class="row">      
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-5"><label style="padding-top: 6px;" for="from_date">Từ:</label></div>
+              <div class="col-md-7">
+                <input data-date-format="dd/mm/yyyy" class="form-control" id="from_date" type="text" data-provide='datepicker' name="from_date" value="<%= params[:from_date].present? ? params[:from_date] : Date.current.strftime("%d/%m/%Y") %>" >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-5">
+                <label style="padding-top: 6px;" for="to_date">Đến:</label>
+              </div>
+              <div class="col-md-7">
+                <input data-date-format="dd/mm/yyyy" class="form-control" id="to_date" type="text" data-provide='datepicker' name="to_date" value="<%= params[:to_date].present? ? params[:to_date] : Date.current.strftime("%d/%m/%Y") %>" >
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

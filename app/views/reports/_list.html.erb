@@ -1,0 +1,29 @@
+<table class="table table-bordered">
+<col width="5%">
+<col width="30%">
+<col width="30%">
+<col width="30%">
+<col width="5%">
+<thead  bgcolor='#026c48'>
+  <td align="center"><font color="#fff">STT</font></td>
+  <td align="center"><font color="#fff">Nhân viên</font></td>
+  <td align="center"><font color="#fff">Email</font></td>
+  <td align="center"><font color="#fff">Nhóm</font></td>
+  <td align="center"><font color="#fff">Xuất báo cáo</font></td>
+</thead>
+<tbody>
+  <% users.each_with_index do |user, index| %>
+      <tr id="user-<%= user.id %>">
+        <input type="hidden" name="id" value="<%= user.id %>">
+        <td align="center"><%= (index+1).to_s %></td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= render partial: "users/groups", locals: { groups: user.groups } %></td>
+        <td align="center">
+          <input type="submit" value="Xuất báo cáo", class="btn btn-default">
+        </td>
+      </tr>
+  <% end %>
+</tbody>
+</table>
+<%= paginate users, :theme => 'twitter-bootstrap-3' %>

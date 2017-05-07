@@ -1,0 +1,46 @@
+select users.name,groups.name group_name,s.user_id,s.created_at,
+case when s.check_out_date=1 then s.late  end day1,
+case when s.check_out_date=2 then s.late  end day2,
+case when s.check_out_date=3 then s.late  end day3,
+case when s.check_out_date=4 then s.late  end day4,
+case when s.check_out_date=5 then s.late  end day5,
+case when s.check_out_date=6 then s.late  end day6,
+case when s.check_out_date=7 then s.late  end day7,
+case when s.check_out_date=8 then s.late  end day8,
+case when s.check_out_date=9 then s.late  end day9,
+case when s.check_out_date=10 then s.late  end day10,
+case when s.check_out_date=11 then s.late  end day11,
+case when s.check_out_date=12 then s.late  end day12,
+case when s.check_out_date=13 then s.late  end day13,
+case when s.check_out_date=14 then s.late  end day14,
+case when s.check_out_date=15 then s.late  end day15,
+case when s.check_out_date=16 then s.late  end day16,
+case when s.check_out_date=17 then s.late  end day17,
+case when s.check_out_date=18 then s.late  end day18,
+case when s.check_out_date=19 then s.late  end day19,
+case when s.check_out_date=20 then s.late  end day20,
+case when s.check_out_date=21 then s.late  end day21,
+case when s.check_out_date=22 then s.late  end day22,
+case when s.check_out_date=23 then s.late  end day23,
+case when s.check_out_date=24 then s.late  end day24,
+case when s.check_out_date=25 then s.late  end day25,
+case when s.check_out_date=26 then s.late  end day26,
+case when s.check_out_date=27 then s.late  end day27,
+case when s.check_out_date=28 then s.late  end day28,
+case when s.check_out_date=29 then s.late  end day29,
+case when s.check_out_date=30 then s.late  end day30,
+case when s.check_out_date=31 then s.late  end day31
+from (
+select s1.user_id,s1.created_at, date_part('day',s1.check_out_date) check_out_date ,case when s1.check_out_time > 16.5 then round(cast(s1.check_out_time-16.5 as numeric),2) end as late
+from (
+Select a.user_id, a.created_at,a.created_at check_out_date, date_part('hour', a.created_at) + round(CAST((date_part('minute', a.created_at)/60) as numeric),2) check_out_time        
+from check_outs a 
+left outer join check_outs b on a.user_id=b.user_id and date_trunc('day',a.created_at) =date_trunc('day',b.created_at)
+) s1
+) s 
+left outer join day_months on 1=1 
+inner join users on s.user_id=users.id
+inner join user_groups on s.user_id=user_groups.user_id
+inner join groups on user_groups.group_id=groups.id
+Where groups.id = <%= quote @group_id %> and date_part('month',s.created_at)= <%= quote @month %>
+Order by groups.name,users.name

@@ -1,0 +1,5 @@
+<h1>Chọn báo cáo</h1>
+<%= form_tag(detail_reports_path(format: :xls), method: :get) do %>
+  <%= render "reports/date_filter" %>
+  <%= render partial: "reports/list", locals: { users: @users } %>
+<% end %>

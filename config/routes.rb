@@ -25,4 +25,10 @@ Rails.application.routes.draw do
   get '/history_info', to: 'profile#history_info'
 
   resources :groups, only: [:index, :create, :update]
+  resources :reports, only: [:index] do
+    collection do
+      get :detail
+      post :general
+    end
+  end
 end

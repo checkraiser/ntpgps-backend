@@ -1,0 +1,2 @@
+class DayMonth < ApplicationRecord
+end
