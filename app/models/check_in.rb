@@ -6,5 +6,5 @@ class CheckIn < ApplicationRecord
   validates :latitude, presence: true
   validates :longitude, presence: true
 
-  scope :at, -> { |date| where("date_trunc('day', created_at) = ?", date) }
+  scope :at, -> (date) { where("date_trunc('day', created_at) = ?", date) }
 end
