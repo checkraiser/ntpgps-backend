@@ -9,7 +9,7 @@ class CreateCheckOut
   end
 
   def call
-    check_outs = user.check_outs.where("date_trunc('day', created_at) = ?", update_location_at.to_date)
+    check_outs = user.check_outs.at(update_location_at)
     unless check_outs.empty?
       errors.add :create_check_out, :already_exist
       return nil

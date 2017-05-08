@@ -9,7 +9,7 @@ class CreateCheckIn
   end
 
   def call
-    check_ins = user.check_ins.where("date_trunc('day', created_at) = ?", update_location_at.to_date)
+    check_ins = user.check_ins.at(update_location_at)
     unless check_ins.empty?
       errors.add :create_check_in, :already_exist
       return nil
