@@ -54,6 +54,7 @@ gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'select2_simple_form', github: 'lndl/select2_simple_form'
 gem 'sql_query'
+gem 'scenic'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

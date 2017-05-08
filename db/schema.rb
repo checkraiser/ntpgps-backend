@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507042949) do
+ActiveRecord::Schema.define(version: 20170508143806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ar_internal_metadata", primary_key: "key", id: :string, force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "check_ins", force: :cascade do |t|
     t.integer  "user_id"
@@ -117,4 +123,72 @@ ActiveRecord::Schema.define(version: 20170507042949) do
   add_foreign_key "locations", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
+
+  create_view :check_in_day_views, materialized: true,  sql_definition: <<-SQL
+      SELECT s.user_id,
+      s.check_in_month,
+      s.check_in_day,
+      s.check_in_time
+     FROM ( SELECT a.user_id,
+              date_part('day'::text, a.created_at) AS check_in_day,
+              date_part('month'::text, a.created_at) AS check_in_month,
+              (date_part('hour'::text, a.created_at) + (round(((date_part('minute'::text, a.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_in_time
+             FROM (check_ins a
+               LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s;
+  SQL
+
+  create_view :check_out_day_views, materialized: true,  sql_definition: <<-SQL
+      SELECT s.user_id,
+      s.check_out_month,
+      s.check_out_day,
+      s.check_out_time
+     FROM ( SELECT b.user_id,
+              date_part('month'::text, b.created_at) AS check_out_month,
+              date_part('day'::text, b.created_at) AS check_out_day,
+              (date_part('hour'::text, b.created_at) + (round(((date_part('minute'::text, b.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_out_time
+             FROM (check_ins a
+               LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s;
+  SQL
+
+  create_view :check_in_early_views, materialized: true,  sql_definition: <<-SQL
+      SELECT s.user_id,
+      s.check_in_month,
+      s.check_in_date,
+      s.early
+     FROM ( SELECT s1.user_id,
+              date_part('month'::text, s1.created_at) AS check_in_month,
+              date_part('day'::text, s1.check_in_date) AS check_in_date,
+                  CASE
+                      WHEN (s1.check_in_time < (7.5)::double precision) THEN round(((s1.check_out_time - (7.5)::double precision))::numeric, 2)
+                      ELSE NULL::numeric
+                  END AS early
+             FROM ( SELECT a.user_id,
+                      a.created_at,
+                      a.created_at AS check_in_date,
+                      (date_part('hour'::text, a.created_at) + (round(((date_part('minute'::text, a.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_in_time,
+                      (date_part('hour'::text, b.created_at) + (round(((date_part('minute'::text, b.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_out_time
+                     FROM (check_ins a
+                       LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s1) s;
+  SQL
+
+  create_view :check_out_late_views, materialized: true,  sql_definition: <<-SQL
+      SELECT s.user_id,
+      s.check_out_month,
+      s.check_out_date,
+      s.late
+     FROM ( SELECT s1.user_id,
+              date_part('month'::text, s1.created_at) AS check_out_month,
+              date_part('day'::text, s1.check_out_date) AS check_out_date,
+                  CASE
+                      WHEN (s1.check_out_time > (16.5)::double precision) THEN round(((s1.check_out_time - (16.5)::double precision))::numeric, 2)
+                      ELSE NULL::numeric
+                  END AS late
+             FROM ( SELECT a.user_id,
+                      a.created_at,
+                      a.created_at AS check_out_date,
+                      (date_part('hour'::text, a.created_at) + (round(((date_part('minute'::text, a.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_out_time
+                     FROM (check_outs a
+                       LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s1) s;
+  SQL
+
 end

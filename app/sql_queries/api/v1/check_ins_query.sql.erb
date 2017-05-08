@@ -1,43 +1,46 @@
-select users.name,groups.name group_name,s.user_id,s.created_at,
-case when check_in_day=1 then s.check_in_time end day1,
-case when check_in_day=2 then s.check_in_time end day2,
-case when check_in_day=3 then s.check_in_time end day3,
-case when check_in_day=4 then s.check_in_time end day4,
-case when check_in_day=5 then s.check_in_time end day5,
-case when check_in_day=6 then s.check_in_time end day6,
-case when check_in_day=7 then s.check_in_time end day7,
-case when check_in_day=8 then s.check_in_time end day8,
-case when check_in_day=9 then s.check_in_time end day9,
-case when check_in_day=10 then s.check_in_time end day10,
-case when check_in_day=11 then s.check_in_time end day11,
-case when check_in_day=12 then s.check_in_time end day12,
-case when check_in_day=13 then s.check_in_time end day13,
-case when check_in_day=14 then s.check_in_time end day14,
-case when check_in_day=15 then s.check_in_time end day15,
-case when check_in_day=16 then s.check_in_time end day16,
-case when check_in_day=17 then s.check_in_time end day17,
-case when check_in_day=18 then s.check_in_time end day18,
-case when check_in_day=19 then s.check_in_time end day19,
-case when check_in_day=20 then s.check_in_time end day20,
-case when check_in_day=21 then s.check_in_time end day21,
-case when check_in_day=22 then s.check_in_time end day22,
-case when check_in_day=23 then s.check_in_time end day23,
-case when check_in_day=24 then s.check_in_time end day24,
-case when check_in_day=25 then s.check_in_time end day25,
-case when check_in_day=26 then s.check_in_time end day26,
-case when check_in_day=27 then s.check_in_time end day27,
-case when check_in_day=28 then s.check_in_time end day28,
-case when check_in_day=29 then s.check_in_time end day29,
-case when check_in_day=30 then s.check_in_time end day30,
-case when check_in_day=31 then s.check_in_time end day31     
+select groups.name group_name,users.name,s.d1,s.d2,s.d3,s.d4,s.d5,s.d6,s.d7,s.d8,s.d9,s.d10,s.d11,s.d12,s.d13,s.d14,s.d15,s.d16,s.d17,s.d18,s.d19,s.d20,s.d21,s.d22,s.d23,s.d24,s.d25,s.d26,s.d27,s.d28,s.d29,s.d30,s.d31
 from (
-select a.user_id,a.created_at,date_part('day', a.created_at) check_in_day, date_part('hour', a.created_at) + round(CAST((date_part('minute', a.created_at)/60) as numeric),2) check_in_time
-from check_ins a
-left outer join check_outs b on a.user_id=b.user_id and date_trunc('day',a.created_at) =date_trunc('day',b.created_at)
+select * 
+from crosstab(
+ 'select user_id,check_in_month,check_in_day,check_in_time from check_in_day_view Where check_in_month=<%= quote @month %> Order by 1',
+ 'select d from generate_series(1,31) d'
+) as (
+  user_id int,
+  check_in_month int,
+  "d1" float,
+  "d2" float,
+  "d3" float,
+  "d4" float,
+  "d5" float,
+  "d6" float,
+  "d7" float,
+  "d8" float,
+  "d9" float,
+  "d10" float,
+  "d11" float,
+  "d12" float,
+  "d13" float,
+  "d14" float,
+  "d15" float,
+  "d16" float,
+  "d17" float,
+  "d18" float,
+  "d19" float,
+  "d20" float,
+  "d21" float,
+  "d22" float,
+  "d23" float,
+  "d24" float,
+  "d25" float,
+  "d26" float,
+  "d27" float,
+  "d28" float,
+  "d29" float,
+  "d30" float,
+  "d31" float  
+)
 ) s
-left outer join day_months on 1=1
 inner join users on s.user_id=users.id
 inner join user_groups on s.user_id=user_groups.user_id
 inner join groups on user_groups.group_id=groups.id
-Where groups.id = <%= quote @group_id %> and date_part('month',s.created_at)= <%= quote @month %>
 Order by groups.name,users.name 

@@ -29,12 +29,12 @@ class CreateCheckIn
   private
 
   def valid?
-    check_in = user.check_ins.where("date(created_at) = ?", update_location_at)
-    if check_in[0].present?
+    check_ins = user.check_ins.where("date_trunc('day', created_at) = ?", update_location_at.to_date)
+    if check_ins.empty?
+      true
+    else
       errors.add :create_check_in, :already_exist
       false
-    else
-      true
     end
   end
 
