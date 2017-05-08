@@ -31,10 +31,10 @@ class CreateCheckOut
   def valid?
     check_outs = user.check_outs.where("date_trunc('day', created_at) = ?", update_location_at.to_date)
     if check_outs.empty?
-      true
+      return true
     else
       errors.add :create_check_out, :already_exist
-      false
+      return false
     end
   end
 
