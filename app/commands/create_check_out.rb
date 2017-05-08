@@ -9,24 +9,23 @@ class CreateCheckOut
   end
 
   def call
-    check_outs = user.check_outs.at(update_location_at)
-    unless check_outs.empty?
-      errors.add :create_check_out, :already_exist
-      return nil
+    check_out = user.check_outs.at(update_location_at.to_date).first
+    
+    unless check_out
+      User.transaction do
+        user.update! latitude: latitude, 
+                     longitude: longitude, 
+                     online_status: true,
+                     update_location_at: update_location_at
+        check_out = user.check_outs.create!  latitude: latitude,
+                                             longitude: longitude,
+                                             created_at: update_location_at
+        user.locations.create! latitude: latitude,
+                               longitude: longitude,
+                               created_at: update_location_at
+      end
     end
-
-    User.transaction do
-      user.update! latitude: latitude, 
-                   longitude: longitude, 
-                   online_status: true,
-                   update_location_at: update_location_at
-      check_out = user.check_outs.create!  latitude: latitude,
-                                           longitude: longitude,
-                                           created_at: update_location_at
-      user.locations.create! latitude: latitude,
-                             longitude: longitude,
-                             created_at: update_location_at
-    end
+    check_out
   rescue => e
     errors.add :create_check_out, e.message
   end
