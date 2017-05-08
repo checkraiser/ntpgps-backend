@@ -27,8 +27,10 @@ Rails.application.routes.draw do
   resources :groups, only: [:index, :create, :update]
   resources :reports, only: [:index] do
     collection do
+      get :details
       get :detail
-      post :general
+      get :get_general, to: 'reports#get_general'
+      get :general
     end
   end
 end

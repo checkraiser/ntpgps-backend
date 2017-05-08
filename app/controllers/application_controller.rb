@@ -5,5 +5,6 @@ class ApplicationController < ActionController::Base
   include Authorization
   include Rendering
   include Decoration
+  include Pagination
   include JsonSerialization
 end

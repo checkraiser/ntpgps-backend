@@ -1,0 +1,29 @@
+<table class="table table-bordered">
+  <col width="5%">
+  <col width="30%">
+  <col width="30%">
+  <col width="15%">
+  <col width="15%">
+  <col width="5%">
+  <thead  bgcolor='#026c48'>
+    <td align="center"><font color="#fff">STT</font></td>
+    <td align="center"><font color="#fff">User</font></td>
+    <td align="center"><font color="#fff">Check In</font></td>
+    <td align="center"><font color="#fff">Check Out</font></td>
+    <td align="center"><font color="#fff">Sớm</font></td>
+    <td align="center"><font color="#fff">Trễ</font></td>
+  </thead>
+  <tbody>
+    <% users.each_with_index do |user, index| %>
+        <tr>
+          <td align="center"><%= (index+1).to_s %></td>
+          <td><%= user[:user_id] %></td>
+          <td><%= user[:check_in_date].to_s + " " + user[:check_in_time].to_s %></td>
+          <td><%= user[:check_out_date].to_s + " " + user[:check_out_time].to_s %></td>
+          <td><%= user[:early] %></td>
+          <td><%= user[:late] %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate users, :theme => 'twitter-bootstrap-3' %>

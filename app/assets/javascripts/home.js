@@ -41,9 +41,7 @@ function mkInfoWindow(content) {
     });    
 }
 function addInfoWindowListener(infowindow, map, marker) {
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
+    infowindow.open(map, marker);
     return marker;
 }
 function mkMarkerWithContent(map, lat, lng, content) {

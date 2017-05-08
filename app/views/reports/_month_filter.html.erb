@@ -1,0 +1,24 @@
+<div class="well">
+  <div class="row">  
+    <div class="col-md-3">
+      Báo cáo:<br/>
+    </div>
+    <div class="col-md-9">
+      <div class="row">      
+        <%= form_tag(general_reports_path, method: :get) do %>
+          <div class="col-md-5"><label style="padding-top: 6px;" for="month">Chọn tháng:</label></div>
+          <div class="col-md-4">
+            <select name="month" class="form-control">
+              <% (1..12).each do |month| %>
+              <option value="<%= month %>" selected="<%= params[:month].present? ? params[:month] : Date.current.month %>"><%= month.to_s %></option>
+              <% end %>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <input type="submit" value="Xuất báo cáo" class="btn btn-primary"/>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

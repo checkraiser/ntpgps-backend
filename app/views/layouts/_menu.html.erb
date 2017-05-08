@@ -23,7 +23,17 @@
     </ul>
   </li>
   <li role="presentation" class="dropdown">
-    <%= link_to "Báo cáo", reports_path %>
+    <a class="dropdown-toggle" data-toggle="dropdown" href="/groups/new" role="button" aria-haspopup="true" aria-expanded="false">
+        Báo cáo <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li role="presentation">
+          <%= link_to "Báo cáo chi tiết", details_reports_path %>
+        </li>
+        <li role="presentation">
+          <%= link_to "Báo cáo tổng hợp", get_general_reports_path %>
+        </li>
+      </ul>
   </li>
   <% if logged_in? %>
     <li role="presentation" class="dropdown pull-right">
