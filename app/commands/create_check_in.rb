@@ -9,7 +9,11 @@ class CreateCheckIn
   end
 
   def call
-    return nil unless valid?
+    check_ins = user.check_ins.where("date_trunc('day', created_at) = ?", update_location_at.to_date)
+    unless check_ins.empty?
+      errors.add :create_check_in, :already_exist
+      return nil
+    end
     User.transaction do
       user.update! latitude: latitude, 
                    longitude: longitude, 
@@ -27,16 +31,6 @@ class CreateCheckIn
   end
 
   private
-
-  def valid?
-    check_ins = user.check_ins.where("date_trunc('day', created_at) = ?", update_location_at.to_date)
-    if check_ins.empty?
-      return true
-    else
-      errors.add :create_check_in, :already_exist
-      return false
-    end
-  end
-
+  
   attr_accessor :check_in, :user, :latitude, :longitude, :update_location_at
 end

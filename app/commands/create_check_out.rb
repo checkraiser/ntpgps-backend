@@ -9,7 +9,12 @@ class CreateCheckOut
   end
 
   def call
-    return nil unless valid?
+    check_outs = user.check_outs.where("date_trunc('day', created_at) = ?", update_location_at.to_date)
+    unless check_outs.empty?
+      errors.add :create_check_out, :already_exist
+      return nil
+    end
+
     User.transaction do
       user.update! latitude: latitude, 
                    longitude: longitude, 
@@ -27,16 +32,6 @@ class CreateCheckOut
   end
 
   private
-
-  def valid?
-    check_outs = user.check_outs.where("date_trunc('day', created_at) = ?", update_location_at.to_date)
-    if check_outs.empty?
-      return true
-    else
-      errors.add :create_check_out, :already_exist
-      return false
-    end
-  end
 
   attr_accessor :check_out, :user, :latitude, :longitude, :update_location_at
 end
