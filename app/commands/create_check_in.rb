@@ -9,6 +9,7 @@ class CreateCheckIn
   end
 
   def call
+    return nil unless valid?
     User.transaction do
       user.update! latitude: latitude, 
                    longitude: longitude, 
@@ -26,6 +27,16 @@ class CreateCheckIn
   end
 
   private
+
+  def valid?
+    check_in = user.check_ins.where("date(created_at) = ?", update_location_at)
+    if check_in[0].present?
+      errors.add :check_in, :already_exist
+      false
+    else
+      true
+    end
+  end
 
   attr_accessor :check_in, :user, :latitude, :longitude, :update_location_at
 end
