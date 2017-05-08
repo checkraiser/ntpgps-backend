@@ -31,7 +31,7 @@ class CreateCheckIn
   def valid?
     check_in = user.check_ins.where("date(created_at) = ?", update_location_at)
     if check_in[0].present?
-      errors.add :check_in, :already_exist
+      errors.add :create_check_in, :already_exist
       false
     else
       true

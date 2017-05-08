@@ -9,6 +9,7 @@ class CreateCheckOut
   end
 
   def call
+    return nil unless valid?
     User.transaction do
       user.update! latitude: latitude, 
                    longitude: longitude, 
@@ -26,6 +27,16 @@ class CreateCheckOut
   end
 
   private
+
+  def valid?
+    check_out = user.check_outs.where("date(created_at) = ?", update_location_at)
+    if check_out[0].present?
+      errors.add :create_check_out, :already_exist
+      false
+    else
+      true
+    end
+  end
 
   attr_accessor :check_out, :user, :latitude, :longitude, :update_location_at
 end
