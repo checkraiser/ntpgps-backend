@@ -7,7 +7,7 @@ class CreateQueueLocation
     @latitude = latitude
     @longitude = longitude
     @percentage = percentage
-    @time = time
+    @time = Time.strptime(time, "%d-%m-%Y %H:%M").in_time_zone
   end
 
   def call
