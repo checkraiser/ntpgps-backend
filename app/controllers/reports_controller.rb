@@ -10,7 +10,40 @@ class ReportsController < ApplicationController
   end
 
   def general
-    @result = paginate(Api::V1::CheckInsQuery.new(month: params[:month], group_id: 1).render)
+    @check_ins = Api::V1::CheckInsQuery.new(month: params[:month]).render.group_by { |x| x[:group_name] }
+    @check_outs = Api::V1::CheckOutsQuery.new(month: params[:month]).render.group_by { |x| x[:group_name] }
+    @late_check_ins = Api::V1::LateCheckInsQuery.new(month: params[:month]).render.group_by { |x| x[:group_name] }
+    @early_check_outs = Api::V1::EarlyCheckOutsQuery.new(month: params[:month]).render.group_by { |x| x[:group_name] }
+    res = {}
+    Group.pluck(:name).each do |group_name|
+      gs = group_name
+      res[gs] ||= {}
+      if @check_ins[gs]
+        @check_ins[gs].each do |v|
+          res[gs][:check_in] ||= []
+          res[gs][:check_in] << v
+        end
+      end
+      if @check_outs[gs]
+        @check_outs[gs].each do |v|
+          res[gs][:check_out] ||= []
+          res[gs][:check_out] << v
+        end
+      end
+      if @late_check_ins[gs]
+        @late_check_ins[gs].each do |v|
+          res[gs][:late_check_in] ||= []
+          res[gs][:late_check_in] << v
+        end
+      end
+      if @early_check_outs[gs]
+        @early_check_out[gs].each do |v|
+          res[gs][:early_check_out] ||= []
+          res[gs][:early_check_out] << v
+        end
+      end
+    end
+    @result = res
   end
 
   def detail

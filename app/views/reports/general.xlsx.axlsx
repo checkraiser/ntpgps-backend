@@ -1,0 +1,24 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Reports") do |sheet|
+  sheet.add_row ["BẢNG THỐNG KÊ CHẤM CÔNG"]
+  row = []
+  row << "STT"
+  row << "Tên nhân viên"
+  (1..31).each do |day|
+    row << "#{day.to_s}"
+  end
+  @result.each do |group_name, val|
+    sheet.add_row [group_name]
+    if val[:check_in]
+      val[:check_in].each_with_index do |cc, index|
+        row = []
+        row << "#{index + 1}"
+        row << cc[:name]
+        (1..31).each do |day|
+          row << cc["d#{day}".to_sym]
+        end
+        sheet.add_row row
+      end
+    end
+  end
+end

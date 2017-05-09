@@ -1,2 +1,2 @@
 <%= render "reports/month_filter" %>
-<%= render partial: "reports/check_ins", locals: { users: @result } %>
+<%= @result.as_json %>

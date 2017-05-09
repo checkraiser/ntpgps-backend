@@ -2,7 +2,7 @@ select groups.name group_name,users.name,s.d1,s.d2,s.d3,s.d4,s.d5,s.d6,s.d7,s.d8
 from (
 select * 
 from crosstab(
- 'select user_id,check_in_month,check_in_day,check_in_time from check_in_day_view Where check_in_month=<%= quote @month %> Order by 1',
+ 'select user_id,check_in_month,check_in_day,check_in_time from check_in_day_views Where check_in_month= <%= @month %> Order by 1',
  'select d from generate_series(1,31) d'
 ) as (
   user_id int,

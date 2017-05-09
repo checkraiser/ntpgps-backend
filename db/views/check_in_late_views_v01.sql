@@ -1,6 +1,6 @@
-select user_id,check_in_month,check_in_date,early
+select user_id,check_in_month,check_in_date,late
 from (
-select s1.user_id,date_part('month',s1.created_at) check_in_month, date_part('day',s1.check_in_date) check_in_date ,case when s1.check_in_time < 7.5 then round(cast(s1.check_out_time-7.5 as numeric),2) end as early
+select s1.user_id,date_part('month',s1.created_at) check_in_month, date_part('day',s1.check_in_date) check_in_date ,case when s1.check_in_time > 7.5 then round(cast(s1.check_in_time-7.5 as numeric),2) end as late
 from (
 Select a.user_id, a.created_at,a.created_at check_in_date, date_part('hour', a.created_at) + round(CAST((date_part('minute', a.created_at)/60) as numeric),2) check_in_time, date_part('hour', b.created_at) + round( CAST((date_part('minute', b.created_at)/60) as numeric),2) check_out_time        
 from check_ins a 

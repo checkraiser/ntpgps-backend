@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::Base  
   include Negotiation
   include Protection
   include Authentication

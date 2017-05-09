@@ -1,8 +1,8 @@
-class Api::V1::CheckInsQuery < ApplicationQuery
+class Api::V1::CheckOutsQuery < ApplicationQuery
   def initialize(options = {})
     @current_user = options[:current_user]
     @month = options[:month]
-    @query = SqlQuery.new("api/v1/check_ins_query", month: month)
+    @query = SqlQuery.new("api/v1/check_outs_query", month: month)
   end
 
   private

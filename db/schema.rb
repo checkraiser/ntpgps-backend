@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508143806) do
+ActiveRecord::Schema.define(version: 20170508195140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "tablefunc"
 
   create_table "ar_internal_metadata", primary_key: "key", id: :string, force: :cascade do |t|
     t.string   "value"
@@ -124,19 +125,6 @@ ActiveRecord::Schema.define(version: 20170508143806) do
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
 
-  create_view :check_in_day_views, materialized: true,  sql_definition: <<-SQL
-      SELECT s.user_id,
-      s.check_in_month,
-      s.check_in_day,
-      s.check_in_time
-     FROM ( SELECT a.user_id,
-              date_part('day'::text, a.created_at) AS check_in_day,
-              date_part('month'::text, a.created_at) AS check_in_month,
-              (date_part('hour'::text, a.created_at) + (round(((date_part('minute'::text, a.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_in_time
-             FROM (check_ins a
-               LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s;
-  SQL
-
   create_view :check_out_day_views, materialized: true,  sql_definition: <<-SQL
       SELECT s.user_id,
       s.check_out_month,
@@ -150,18 +138,35 @@ ActiveRecord::Schema.define(version: 20170508143806) do
                LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s;
   SQL
 
-  create_view :check_in_early_views, materialized: true,  sql_definition: <<-SQL
+  add_index "check_out_day_views", ["user_id", "check_out_month", "check_out_day"], name: "codv_idx", unique: true, using: :btree
+
+  create_view :check_in_day_views, materialized: true,  sql_definition: <<-SQL
+      SELECT s.user_id,
+      s.check_in_month,
+      s.check_in_day,
+      s.check_in_time
+     FROM ( SELECT a.user_id,
+              date_part('day'::text, a.created_at) AS check_in_day,
+              date_part('month'::text, a.created_at) AS check_in_month,
+              (date_part('hour'::text, a.created_at) + (round(((date_part('minute'::text, a.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_in_time
+             FROM (check_ins a
+               LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s;
+  SQL
+
+  add_index "check_in_day_views", ["user_id", "check_in_month", "check_in_day"], name: "cidv_idx", unique: true, using: :btree
+
+  create_view :check_in_late_views, materialized: true,  sql_definition: <<-SQL
       SELECT s.user_id,
       s.check_in_month,
       s.check_in_date,
-      s.early
+      s.late
      FROM ( SELECT s1.user_id,
               date_part('month'::text, s1.created_at) AS check_in_month,
               date_part('day'::text, s1.check_in_date) AS check_in_date,
                   CASE
-                      WHEN (s1.check_in_time < (7.5)::double precision) THEN round(((s1.check_out_time - (7.5)::double precision))::numeric, 2)
+                      WHEN (s1.check_in_time > (7.5)::double precision) THEN round(((s1.check_in_time - (7.5)::double precision))::numeric, 2)
                       ELSE NULL::numeric
-                  END AS early
+                  END AS late
              FROM ( SELECT a.user_id,
                       a.created_at,
                       a.created_at AS check_in_date,
@@ -171,24 +176,28 @@ ActiveRecord::Schema.define(version: 20170508143806) do
                        LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s1) s;
   SQL
 
-  create_view :check_out_late_views, materialized: true,  sql_definition: <<-SQL
+  add_index "check_in_late_views", ["user_id", "check_in_month", "check_in_date"], name: "cilv_idx", unique: true, using: :btree
+
+  create_view :check_out_early_views, materialized: true,  sql_definition: <<-SQL
       SELECT s.user_id,
       s.check_out_month,
       s.check_out_date,
-      s.late
+      s.early
      FROM ( SELECT s1.user_id,
               date_part('month'::text, s1.created_at) AS check_out_month,
               date_part('day'::text, s1.check_out_date) AS check_out_date,
                   CASE
-                      WHEN (s1.check_out_time > (16.5)::double precision) THEN round(((s1.check_out_time - (16.5)::double precision))::numeric, 2)
+                      WHEN (s1.check_out_time < (16.5)::double precision) THEN round((((16.5)::double precision - s1.check_out_time))::numeric, 2)
                       ELSE NULL::numeric
-                  END AS late
-             FROM ( SELECT a.user_id,
-                      a.created_at,
-                      a.created_at AS check_out_date,
-                      (date_part('hour'::text, a.created_at) + (round(((date_part('minute'::text, a.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_out_time
+                  END AS early
+             FROM ( SELECT b.user_id,
+                      b.created_at,
+                      b.created_at AS check_out_date,
+                      (date_part('hour'::text, b.created_at) + (round(((date_part('minute'::text, b.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_out_time
                      FROM (check_outs a
                        LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s1) s;
   SQL
+
+  add_index "check_out_early_views", ["user_id", "check_out_month", "check_out_date"], name: "coev_idx", unique: true, using: :btree
 
 end

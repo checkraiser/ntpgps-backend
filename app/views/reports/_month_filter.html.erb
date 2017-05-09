@@ -5,7 +5,7 @@
     </div>
     <div class="col-md-9">
       <div class="row">      
-        <%= form_tag(general_reports_path, method: :get) do %>
+        <%= form_tag(general_reports_path(format: :xls), method: :get) do %>
           <div class="col-md-5"><label style="padding-top: 6px;" for="month">Chọn tháng:</label></div>
           <div class="col-md-4">
             <select name="month" class="form-control">

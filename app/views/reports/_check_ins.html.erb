@@ -1,25 +1,23 @@
+<%= users.as_json %>
+<% users.each do |key, val| %>
 <table class="table table-bordered">
   <thead  bgcolor='#026c48'>
     <td align="center"><font color="#fff">STT</font></td>
     <td align="center"><font color="#fff">Nhân viên</font></td>
-    <td align="center"><font color="#fff">Nhóm</font></td>
-    <td align="center"><font color="#fff">Vào</font></td>
     <% (1..31).each do |day| %>
       <td align="center"><font color="#fff"><%= "#{day.to_s}" %></font></td>
     <% end %>
   </thead>
   <tbody>
-    <% users.each_with_index do |user, index| %>
-        <tr>
-          <td align="center"><%= (index+1).to_s %></td>
-          <td><%= user[:name] %></td>
-          <td><%= user[:group_name] %></td>
-          <td><%= user[:check_out_date].to_s + " " + user[:check_out_time].to_s %></td>
-          <% (1..31).each do |day| %>
-            <td><%= user["day#{day}".to_sym] %></td>
-          <% end %>
-        </tr>
+    <% val.each_with_index do |user, index| %>
+      <tr>
+        <td align="center"><%= (index+1).to_s %></td>
+        <td><%= user[:name] %></td>
+        <% (1..31).each do |day| %>
+          <td><%= user["day#{day}".to_sym] %></td>
+        <% end %>
+      </tr>
     <% end %>
   </tbody>
 </table>
-<%= paginate users, :theme => 'twitter-bootstrap-3' %>
+<% end %>
