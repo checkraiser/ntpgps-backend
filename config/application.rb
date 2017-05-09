@@ -14,5 +14,6 @@ module Backend
     config.enable_dependency_loading = true
     config.autoload_paths << Rails.root.join('lib')
     config.time_zone = 'Hanoi'
+    config.active_record.default_timezone = :local # Or :utc
   end
 end
