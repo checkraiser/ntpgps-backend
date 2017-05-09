@@ -23,6 +23,7 @@ class CreateCheckIn
         user.locations.create! latitude: latitude,
                                longitude: longitude,
                                created_at: update_location_at
+        Report.refresh                               
       end
     end
   rescue => e
