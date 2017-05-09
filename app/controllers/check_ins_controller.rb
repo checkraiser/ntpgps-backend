@@ -8,9 +8,9 @@ class CheckInsController < ApplicationController
     if command.success? 
       check_in = command.result
       result = { name: check_in.user.name, checked_in_time: check_in.created_at, address: check_in.address }
-      render json: result.as_json
+      head 200
     else 
-      render json: { error: command.errors }, status: :unauthorized 
+      render json: { error: command.errors }, status: 400 
     end
   end
 end

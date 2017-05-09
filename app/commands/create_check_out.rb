@@ -25,7 +25,6 @@ class CreateCheckOut
                                created_at: update_location_at
       end
     end
-    check_out
   rescue => e
     errors.add :create_check_out, e.message
   end

@@ -25,7 +25,6 @@ class CreateCheckIn
                                created_at: update_location_at
       end
     end
-    check_in
   rescue => e
   	errors.add :create_check_in, e.message
   end
