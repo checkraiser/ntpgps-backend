@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508195140) do
+ActiveRecord::Schema.define(version: 20170509115410) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -199,5 +199,19 @@ ActiveRecord::Schema.define(version: 20170508195140) do
   SQL
 
   add_index "check_out_early_views", ["user_id", "check_out_month", "check_out_date"], name: "coev_idx", unique: true, using: :btree
+
+  create_view :time_of_day_views, materialized: true,  sql_definition: <<-SQL
+      SELECT s.user_id,
+      s.check_in_month,
+      s.check_in_day,
+      (s.check_out_time - s.check_in_time) AS times
+     FROM ( SELECT a.user_id,
+              date_part('day'::text, a.created_at) AS check_in_day,
+              date_part('month'::text, a.created_at) AS check_in_month,
+              (date_part('hour'::text, a.created_at) + (round(((date_part('minute'::text, a.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_in_time,
+              (date_part('hour'::text, b.created_at) + (round(((date_part('minute'::text, b.created_at) / (60)::double precision))::numeric, 2))::double precision) AS check_out_time
+             FROM (check_ins a
+               LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s;
+  SQL
 
 end

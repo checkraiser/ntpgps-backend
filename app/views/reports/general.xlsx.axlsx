@@ -20,5 +20,49 @@ wb.add_worksheet(name: "Reports") do |sheet|
         sheet.add_row row
       end
     end
+    if val[:check_out]
+      val[:check_out].each_with_index do |cc, index|
+        row = []
+        row << "#{index + 1}"
+        row << cc[:name]
+        (1..31).each do |day|
+          row << cc["d#{day}".to_sym]
+        end
+        sheet.add_row row
+      end
+    end
+    if val[:late_check_in]
+      val[:late_check_in].each_with_index do |cc, index|
+        row = []
+        row << "#{index + 1}"
+        row << cc[:name]
+        (1..31).each do |day|
+          row << cc["d#{day}".to_sym]
+        end
+        sheet.add_row row
+      end
+    end
+    if val[:early_check_out]
+      val[:early_check_out].each_with_index do |cc, index|
+        row = []
+        row << "#{index + 1}"
+        row << cc[:name]
+        (1..31).each do |day|
+          row << cc["d#{day}".to_sym]
+        end
+        sheet.add_row row
+      end
+    end
+    if val[:time_of_day]
+      val[:time_of_day].each_with_index do |cc, index|
+        row = []
+        row << "#{index + 1}"
+        row << cc[:name]
+        (1..31).each do |day|
+          row << cc["d#{day}".to_sym]
+        end
+        sheet.add_row row
+      end
+    end
   end
 end

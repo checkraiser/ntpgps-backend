@@ -14,6 +14,7 @@ class ReportsController < ApplicationController
     @check_outs = Api::V1::CheckOutsQuery.new(month: params[:month]).render.group_by { |x| x[:group_name] }
     @late_check_ins = Api::V1::LateCheckInsQuery.new(month: params[:month]).render.group_by { |x| x[:group_name] }
     @early_check_outs = Api::V1::EarlyCheckOutsQuery.new(month: params[:month]).render.group_by { |x| x[:group_name] }
+    @time_of_day = Api::V1::TimeOfDayQuery.new(month: params[:month]).render.group_by { |x| x[:group_name] }
     res = {}
     Group.pluck(:name).each do |group_name|
       gs = group_name
@@ -40,6 +41,12 @@ class ReportsController < ApplicationController
         @early_check_out[gs].each do |v|
           res[gs][:early_check_out] ||= []
           res[gs][:early_check_out] << v
+        end
+      end
+      if @time_of_day[gs]
+        @time_of_day[gs].each do |v|
+          res[gs][:time_of_day] ||= []
+          res[gs][:time_of_day] << v
         end
       end
     end
