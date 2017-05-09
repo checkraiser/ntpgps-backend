@@ -8,9 +8,9 @@ class CheckOutsController < ApplicationController
     if command.success? 
       check_out = command.result
       result = { name: check_out.user.name, checked_in_time: check_out.created_at, address: check_out.address }
-      head 200
+      render json: { code: 201 }
     else 
-      render json: { error: command.errors }, status: 400
+      render json: { code: 402 }
     end
   end
 end

@@ -11,9 +11,9 @@ class LocationsController < ApplicationController
           position: [current_user.id, params[:latitude], params[:longitude]],
           center: center,
           info: current_user.info
-        head 204
+        render json: { code: 202 }
     else
-      render json: { error: command.errors }, status: 400 
+      render json: { code: 203 }
     end
   end
 
