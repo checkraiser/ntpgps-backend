@@ -10,7 +10,7 @@ class CreateCheckIn
 
   def call
     check_in = user.check_ins.at(update_location_at.to_date).first
-    
+    errors.add :create_check_in, 'Check In exists' if check_in
     unless check_in
       User.transaction do
         user.update! latitude: latitude, 
