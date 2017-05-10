@@ -6,9 +6,9 @@ class CheckOutsController < ApplicationController
   def create
   	command = CreateCheckOut.call(current_user, params[:latitude], params[:longitude], params[:percentage])
     if command.success? 
-      render json: { code: 201 }
+      render json: { code: 201, result: command.result }
     else 
-      render json: { code: 402 }
+      render json: { code: 402, error: command.errors }
     end
   end
 end
