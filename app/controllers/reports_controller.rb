@@ -19,31 +19,31 @@ class ReportsController < ApplicationController
     Group.pluck(:name).each do |group_name|
       gs = group_name
       res[gs] ||= {}
-      if @check_ins[gs]
+      if @check_ins && @check_ins[gs]
         @check_ins[gs].each do |v|
           res[gs][:check_in] ||= []
           res[gs][:check_in] << v
         end
       end
-      if @check_outs[gs]
+      if @check_outs && @check_outs[gs]
         @check_outs[gs].each do |v|
           res[gs][:check_out] ||= []
           res[gs][:check_out] << v
         end
       end
-      if @late_check_ins[gs]
+      if @late_check_ins && @late_check_ins[gs]
         @late_check_ins[gs].each do |v|
           res[gs][:late_check_in] ||= []
           res[gs][:late_check_in] << v
         end
       end
-      if @early_check_outs[gs]
+      if @early_check_outs && @early_check_outs[gs]
         @early_check_out[gs].each do |v|
           res[gs][:early_check_out] ||= []
           res[gs][:early_check_out] << v
         end
       end
-      if @time_of_day[gs]
+      if @time_of_day && @time_of_day[gs]
         @time_of_day[gs].each do |v|
           res[gs][:time_of_day] ||= []
           res[gs][:time_of_day] << v
