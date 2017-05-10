@@ -4,7 +4,7 @@ class CheckInsController < ApplicationController
   end
 
   def create
-  	command = CreateCheckIn.call(current_user, params[:latitude], params[:longitude])
+  	command = CreateCheckIn.call(current_user, params[:latitude], params[:longitude], params[:percentage])
     if command.success? 
       render json: { code: 200 }
     else 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509115410) do
+ActiveRecord::Schema.define(version: 20170510144818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,21 +24,23 @@ ActiveRecord::Schema.define(version: 20170509115410) do
 
   create_table "check_ins", force: :cascade do |t|
     t.integer  "user_id"
-    t.float    "latitude",   null: false
-    t.float    "longitude",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.float    "latitude",                 null: false
+    t.float    "longitude",                null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "address"
+    t.integer  "percentage", default: 100
     t.index ["user_id"], name: "index_check_ins_on_user_id", using: :btree
   end
 
   create_table "check_outs", force: :cascade do |t|
     t.integer  "user_id"
-    t.float    "latitude",   null: false
-    t.float    "longitude",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.float    "latitude",                 null: false
+    t.float    "longitude",                null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "address"
+    t.integer  "percentage", default: 100
     t.index ["user_id"], name: "index_check_outs_on_user_id", using: :btree
   end
 

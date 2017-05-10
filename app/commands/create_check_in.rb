@@ -1,10 +1,11 @@
 class CreateCheckIn
   prepend SimpleCommand
 
-  def initialize(user, latitude, longitude, update_location_at = Time.current.in_time_zone)
+  def initialize(user, latitude, longitude, percentage, update_location_at = Time.current.in_time_zone)
   	@user = user
   	@latitude = latitude
   	@longitude = longitude
+    @percentage = percentage
     @update_location_at = update_location_at
   end
 
@@ -19,9 +20,11 @@ class CreateCheckIn
                      update_location_at: update_location_at
       	check_in = user.check_ins.create!  latitude: latitude,
       						   			                 longitude: longitude,
+                                           percentage: percentage,
                                            created_at: update_location_at
         user.locations.create! latitude: latitude,
                                longitude: longitude,
+                               percentage: percentage,
                                created_at: update_location_at
         Report.refresh                               
       end
@@ -32,5 +35,5 @@ class CreateCheckIn
 
   private
   
-  attr_accessor :check_in, :user, :latitude, :longitude, :update_location_at
+  attr_accessor :check_in, :user, :latitude, :longitude, :update_location_at, :percentage
 end
