@@ -38,7 +38,7 @@ class ReportsController < ApplicationController
         end
       end
       if @early_check_outs && @early_check_outs[gs]
-        @early_check_out[gs].each do |v|
+        @early_check_outs[gs].each do |v|
           res[gs][:early_check_out] ||= []
           res[gs][:early_check_out] << v
         end
