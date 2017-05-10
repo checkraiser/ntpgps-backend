@@ -1,4 +1,6 @@
-select groups.name group_name,users.name,s.d1,s.d2,s.d3,s.d4,s.d5,s.d6,s.d7,s.d8,s.d9,s.d10,s.d11,s.d12,s.d13,s.d14,s.d15,s.d16,s.d17,s.d18,s.d19,s.d20,s.d21,s.d22,s.d23,s.d24,s.d25,s.d26,s.d27,s.d28,s.d29,s.d30,s.d31
+select case when s.group_name is null then 'No group' else s.group_name end as group_name,users.name user_name,s.d1,s.d2,s.d3,s.d4,s.d5,s.d6,s.d7,s.d8,s.d9,s.d10,s.d11,s.d12,s.d13,s.d14,s.d15,s.d16,s.d17,s.d18,s.d19,s.d20,s.d21,s.d22,s.d23,s.d24,s.d25,s.d26,s.d27,s.d28,s.d29,s.d30,s.d31
+from ( 
+select groups.name group_name,users.id user_id,users.name user_name,s.d1,s.d2,s.d3,s.d4,s.d5,s.d6,s.d7,s.d8,s.d9,s.d10,s.d11,s.d12,s.d13,s.d14,s.d15,s.d16,s.d17,s.d18,s.d19,s.d20,s.d21,s.d22,s.d23,s.d24,s.d25,s.d26,s.d27,s.d28,s.d29,s.d30,s.d31
 from (
 select * 
 from crosstab(
@@ -43,4 +45,6 @@ from crosstab(
 inner join users on s.user_id=users.id
 inner join user_groups on s.user_id=user_groups.user_id
 inner join groups on user_groups.group_id=groups.id
-Order by groups.name,users.name
+) s
+right outer join users on s.user_id=users.id
+Order by s.group_name,s.user_name
