@@ -17,6 +17,7 @@ class CreateCheckOut
         user.update! latitude: latitude, 
                      longitude: longitude, 
                      online_status: true,
+                     percentage: percentage,
                      update_location_at: update_location_at
         check_out = user.check_outs.create!  latitude: latitude,
                                              longitude: longitude,
