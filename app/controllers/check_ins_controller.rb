@@ -4,7 +4,16 @@ class CheckInsController < ApplicationController
   end
 
   def create
-  	command = CreateCheckIn.call(current_user, params[:latitude], params[:longitude], params[:percentage])
+  	command = CreateCheckIn.call(current_user, params[:latitude], params[:longitude], params[:percentage], params[:time])
+    if command.success? 
+      render json: { code: 200, result: command.result }
+    else 
+      render json: { code: 400, error: command.errors }
+    end
+  end
+
+  def queue
+    command = CreateCheckIn.call(current_user, params[:latitude], params[:longitude], params[:percentage])
     if command.success? 
       render json: { code: 200, result: command.result }
     else 

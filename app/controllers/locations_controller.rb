@@ -5,7 +5,7 @@ class LocationsController < ApplicationController
   end
 
   def create
-    command = CreateLocation.call(current_user, params[:latitude], params[:longitude], params[:percentage])
+    command = CreateLocation.call(current_user, params[:latitude], params[:longitude], params[:percentage], params[:time])
     if command.success?
     	  ActionCable.server.broadcast 'locations',
           position: [current_user.id, params[:latitude], params[:longitude]],
