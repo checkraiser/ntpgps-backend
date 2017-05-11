@@ -1,6 +1,0 @@
-select s.user_id, s.check_in_date,s.check_out_date,s.check_in_time,s.check_out_time, case when s.check_in_time < 7.5 then round(cast(s.check_out_time-7.5 as numeric),2) end as Early, case when s.check_out_time > 16.5 then round(cast(s.check_out_time-16.5 as numeric),2) end as Late    
-from (
-Select a.user_id,a.created_at check_in_date,b.created_at check_out_date, date_part('hour', a.created_at) + round(CAST((date_part('minute', a.created_at)/60) as numeric),2) check_in_time, date_part('hour', b.created_at) + round( CAST((date_part('minute', b.created_at)/60) as numeric),2) check_out_time        
-from check_ins a 
-left outer join check_outs b on a.user_id=b.user_id and date_trunc('day',a.created_at) =date_trunc('day',b.created_at)
-) s   
