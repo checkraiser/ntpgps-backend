@@ -4,5 +4,6 @@ class Report
     CheckInLateView.refresh
     CheckOutDayView.refresh
     CheckOutEarlyView.refresh
+    HistoryCheckInOutView.refresh
   end
 end

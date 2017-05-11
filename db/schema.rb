@@ -259,6 +259,6 @@ ActiveRecord::Schema.define(version: 20170511081351) do
     WHERE (users.admin = false);
   SQL
 
-  add_index "history_check_in_out_views", ["user_id", "check_in_created_at", "check_out_created_at"], name: "history_check_in_outs", unique: true, using: :btree
+  add_index "history_check_in_out_views", ["user_id", "check_in_created_at", "check_out_created_at"], name: "hciov_idx", unique: true, using: :btree
 
 end
