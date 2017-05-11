@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510144818) do
+ActiveRecord::Schema.define(version: 20170511081351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,5 +215,50 @@ ActiveRecord::Schema.define(version: 20170510144818) do
              FROM (check_ins a
                LEFT JOIN check_outs b ON (((a.user_id = b.user_id) AND (date_trunc('day'::text, a.created_at) = date_trunc('day'::text, b.created_at)))))) s;
   SQL
+
+  create_view :history_check_in_out_views, materialized: true,  sql_definition: <<-SQL
+      SELECT
+          CASE
+              WHEN (s1.group_name IS NULL) THEN 'No group'::character varying
+              ELSE s1.group_name
+          END AS group_name,
+      users.id AS user_id,
+      users.name,
+      s1.check_in_created_at,
+      s1.check_in_address,
+      s1.check_in_latitude,
+      s1.check_in_longitude,
+      s1.check_in_percentage,
+      s2.check_out_created_at,
+      s2.check_out_address,
+      s2.check_out_latitude,
+      s2.check_out_longitude,
+      s2.check_out_percentage,
+      users.online_status
+     FROM ((( SELECT groups.id AS group_id,
+              groups.name AS group_name,
+              a.user_id,
+              a.created_at AS check_in_created_at,
+              b.address AS check_in_address,
+              b.latitude AS check_in_latitude,
+              b.longitude AS check_in_longitude,
+              b.percentage AS check_in_percentage
+             FROM (((check_ins a
+               JOIN locations b ON (((a.user_id = b.user_id) AND (a.created_at = b.created_at))))
+               JOIN user_groups ON ((a.user_id = user_groups.user_id)))
+               JOIN groups ON ((user_groups.group_id = groups.id)))) s1
+       LEFT JOIN ( SELECT a.user_id,
+              a.created_at AS check_out_created_at,
+              b.address AS check_out_address,
+              b.latitude AS check_out_latitude,
+              b.longitude AS check_out_longitude,
+              b.percentage AS check_out_percentage
+             FROM (check_outs a
+               JOIN locations b ON (((a.user_id = b.user_id) AND (a.created_at = b.created_at))))) s2 ON (((s1.user_id = s2.user_id) AND (date_trunc('day'::text, s1.check_in_created_at) = date_trunc('day'::text, s2.check_out_created_at)))))
+       RIGHT JOIN users ON ((s1.user_id = users.id)))
+    WHERE (users.admin = false);
+  SQL
+
+  add_index "history_check_in_out_views", ["user_id", "check_in_created_at", "check_out_created_at"], name: "history_check_in_outs", unique: true, using: :btree
 
 end
