@@ -3,7 +3,10 @@ class Api::V1::HistoryCheckInOutQuery < ApplicationQuery
     @current_user = options[:current_user]
     @name = options[:name].to_s
     @group_id = options[:group_id].to_s
-    @query = SqlQuery.new("api/v1/history_check_in_out_query", name: name, group_id: group_id)
+    @query = SqlQuery.new("api/v1/history_check_in_out_query", 
+                          name: name, group_id: group_id,
+                          has_all_params: has_all_params?, has_only_name: has_only_name?, 
+                          has_only_group_id: has_only_group_id?)
   end
 
   private
@@ -16,7 +19,7 @@ class Api::V1::HistoryCheckInOutQuery < ApplicationQuery
     name.present? && !group_id.present?
   end
 
-  def has_only_grouop_name
+  def has_only_group_id?
     !name.present? && group_id.present?
   end
 
