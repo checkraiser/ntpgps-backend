@@ -23,7 +23,7 @@
   <% users.each_with_index do |user, index| %>
     <tr>
     <td><%= (index + 1).to_s %></td>
-    <td><%= link_to user[:name], user_path(user[:uid]) %></td>
+    <td><%= link_to user[:name], user_path(user[:user_id]) %></td>
     <td><%= user[:check_in_created_at] %></td>
     <td><%= user[:check_in_address] %></td>
     <td><%= user[:check_in_percentage] %></td>
