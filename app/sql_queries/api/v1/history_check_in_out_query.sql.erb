@@ -1,2 +1,10 @@
 select * from history_check_in_out_views
-where name like <%= quote @name %> and group_name = <%= quote @group_name %>
+<% if @has_all_params?  %>
+where name like <%= quote @name %> and group_id = <%= @group_id %>
+<% end %>
+<% if @has_only_name? %>
+where name like <%= quote @name %>
+<% end %>
+where if @has_only_group_id? %>
+and group_id = <%= quote @group_id %>
+<% end %>

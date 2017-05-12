@@ -19,16 +19,7 @@ class HomeController < ApplicationController
   end
 
   def check_ins
-    if params[:group_id].present?
-      group = Group.find_by_id(params[:group_id])
-      if group
-        Api::V1::HistoryCheckInOutQuery.new(name: params[:query], group_name: group.name).render
-      else
-        Api::V1::HistoryCheckInOutQuery.new(name: params[:query]).render
-      end
-    else
-      Api::V1::HistoryCheckInOutQuery.new(name: params[:query]).render
-    end
+    @check_ins ||= Api::V1::HistoryCheckInOutQuery.new(params).render
   end
 
   def check_ins_ids

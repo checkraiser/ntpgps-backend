@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170511081351) do
+ActiveRecord::Schema.define(version: 20170512064859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(version: 20170511081351) do
   SQL
 
   create_view :history_check_in_out_views, materialized: true,  sql_definition: <<-SQL
-      SELECT
+      SELECT s1.group_id,
           CASE
               WHEN (s1.group_name IS NULL) THEN 'No group'::character varying
               ELSE s1.group_name
