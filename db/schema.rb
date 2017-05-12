@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170512064859) do
+ActiveRecord::Schema.define(version: 20170512083623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -245,8 +245,8 @@ ActiveRecord::Schema.define(version: 20170512064859) do
               b.percentage AS check_in_percentage
              FROM (((check_ins a
                JOIN locations b ON (((a.user_id = b.user_id) AND (a.created_at = b.created_at))))
-               JOIN user_groups ON ((a.user_id = user_groups.user_id)))
-               JOIN groups ON ((user_groups.group_id = groups.id)))) s1
+               LEFT JOIN user_groups ON ((a.user_id = user_groups.user_id)))
+               LEFT JOIN groups ON ((user_groups.group_id = groups.id)))) s1
        LEFT JOIN ( SELECT a.user_id,
               a.created_at AS check_out_created_at,
               b.address AS check_out_address,
@@ -254,7 +254,7 @@ ActiveRecord::Schema.define(version: 20170512064859) do
               b.longitude AS check_out_longitude,
               b.percentage AS check_out_percentage
              FROM (check_outs a
-               JOIN locations b ON (((a.user_id = b.user_id) AND (a.created_at = b.created_at))))) s2 ON (((s1.user_id = s2.user_id) AND (date_trunc('day'::text, s1.check_in_created_at) = date_trunc('day'::text, s2.check_out_created_at)))))
+               JOIN locations b ON (((a.user_id = b.user_id) AND (a.created_at = b.created_at))))) s2 ON (((s1.user_id = s2.user_id) AND (s1.check_in_created_at = s2.check_out_created_at))))
        RIGHT JOIN users ON ((s1.user_id = users.id)))
     WHERE (users.admin = false);
   SQL
