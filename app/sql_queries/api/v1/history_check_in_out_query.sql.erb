@@ -1,9 +1,9 @@
 select * from history_check_in_out_views
 <% if @has_all_params  %>
-where name like <%= quote @name %> and group_id = <%= @group_id %>
+where group_id = <%= @group_id %> and name like <%= quote "%#{@query}%" %> or email like <%= quote "%#{@query}%" %>
 <% end %>
-<% if @has_only_name %>
-where name like <%= quote @name %>
+<% if @has_only_query %>
+where name like <%= quote "%#{@query}%" %> or email like <%= quote "%#{@query}%" %>
 <% end %>
 <% if @has_only_group_id %>
 where group_id = <%= quote @group_id %>
