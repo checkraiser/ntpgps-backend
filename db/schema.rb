@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170512182238) do
+ActiveRecord::Schema.define(version: 20170513031336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -230,7 +230,8 @@ ActiveRecord::Schema.define(version: 20170512182238) do
       a.percentage AS check_in_percentage,
       b.created_at AS check_out_created_at,
       b.address AS check_out_address,
-      b.percentage AS check_out_percentage
+      b.percentage AS check_out_percentage,
+      users.online_status
      FROM ((((check_ins a
        LEFT JOIN user_groups ON ((a.user_id = user_groups.user_id)))
        LEFT JOIN groups ON ((user_groups.group_id = groups.id)))
