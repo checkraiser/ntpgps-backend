@@ -27,7 +27,7 @@
     <td><%= Time.zone.parse(user[:check_in_created_at]).strftime("%d/%m/%Y %H:%M") if user[:check_in_created_at] %></td>
     <td><%= user[:check_in_address] %></td>
     <td><%= user[:check_in_percentage] %></td>
-    <td><%= user[:check_out_created_at].strftime("%d/%m/%Y %H:%M") if user[:check_out_created_at] %></td>
+    <td><%= Time.zone.parse(user[:check_out_created_at]).strftime("%d/%m/%Y %H:%M") if user[:check_out_created_at] %></td>
     <td><%= user[:check_out_address] %></td>
     <td><%= user[:check_out_percentage] %></td>
     <td><%= user[:online_status] ? raw("<font color='green'>online</font>") : raw("<font color='red'>offline</font>") %></td>
