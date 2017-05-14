@@ -125,6 +125,7 @@ GEM
       activerecord
       kaminari-core (= 1.0.1)
     kaminari-core (1.0.1)
+    kdtree (0.4)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -149,6 +150,8 @@ GEM
     nio4r (2.0.0)
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
+    offline_geocoder (0.1.0)
+      kdtree (~> 0.3)
     pg (0.20.0)
     puma (3.8.2)
     rack (2.0.1)
@@ -266,6 +269,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   material_icons
   materialize-sass
+  offline_geocoder
   pg (~> 0.18)
   puma (~> 3.0)
   rails (~> 5.0.2)

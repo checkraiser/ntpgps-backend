@@ -36,6 +36,8 @@ class CreateLocation
                    update_location_at: update_location_at,
                    online_status: true,
                    percentage: percentage
+      user.update! address: address unless user.address                   
+      location.update! address: address unless location.address                                     
       return location                   
     end
   rescue => e
@@ -43,6 +45,17 @@ class CreateLocation
     nil
   end
 
+  def address
+    @address ||= to_address(geocoder.search(latitude, longitude))
+  end
+
+  def geocoder
+    @geocoder ||= OfflineGeocoder.new
+  end
+
+  def to_address(res)
+    "#{res[:name]} #{res[:admin1]}, #{res[:admin2]}, #{res[:country]}" 
+  end
 
   attr_accessor :location, :user
   attr_reader :latitude, :longitude, :percentage, :update_location_at  
