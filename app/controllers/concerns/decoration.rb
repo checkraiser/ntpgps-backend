@@ -2,7 +2,7 @@ module Decoration
   extend ActiveSupport::Concern
 
   def decorate(obj)
-  	ActiveDecorator::Decorator.instance.decorate obj
+  	@decorated_object ||= ActiveDecorator::Decorator.instance.decorate(obj)
   end
 
   def pluck(obj, *attrs)

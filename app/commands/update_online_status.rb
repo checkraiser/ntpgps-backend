@@ -12,6 +12,7 @@ class UpdateOnlineStatus
       user.assign_attributes online_status: true
     end
     if user.save
+      Report.refresh
       user
     end
   end

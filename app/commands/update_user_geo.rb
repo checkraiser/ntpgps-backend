@@ -16,7 +16,7 @@ class UpdateUserGeo
                             update_location_at: update_location_at
     @user.percentage = @percentage if percentage    
     @user.save!
-    p @user
+    Report.refresh
     @user
   rescue => e
   	errors.add :update_user_geo, e.message

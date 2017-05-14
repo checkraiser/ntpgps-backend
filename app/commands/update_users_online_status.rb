@@ -14,6 +14,7 @@ class UpdateUsersOnlineStatus
         res << command.result
       end
     end
+    Report.refresh
     res
   end
 

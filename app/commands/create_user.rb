@@ -32,7 +32,8 @@ class CreateUser
 		user.latitude = geo[0].data["lat"]
 		user.longitude = geo[0].data["lon"]
 	end
-	if user.save  					  
+	if user.save  	
+    Report.refresh				  
 	  user
   	else
   	  user.errors

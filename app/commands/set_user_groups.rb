@@ -27,6 +27,7 @@ class SetUserGroups
         end
       end
     end
+    Report.refresh
     user.reload
   rescue => e
   	errors.add :set_user_groups, e.message

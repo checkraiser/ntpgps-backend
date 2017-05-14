@@ -1,12 +1,16 @@
 class CreateCheckOut
   prepend SimpleCommand
 
-  def initialize(user, latitude, longitude, percentage, update_location_at = Time.current.in_time_zone)
+  def initialize(user, latitude, longitude, percentage, update_location_at)
     @user = user
     @latitude = latitude
     @longitude = longitude
     @percentage = percentage
-    @update_location_at = update_location_at
+    if !update_location_at 
+      @update_location_at = Time.current.in_time_zone
+    else
+      @update_location_at = Time.zone.parse(update_location_at)
+    end
   end
 
   def call

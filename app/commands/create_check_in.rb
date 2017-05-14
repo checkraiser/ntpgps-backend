@@ -1,12 +1,12 @@
 class CreateCheckIn
   prepend SimpleCommand
 
-  def initialize(user, latitude, longitude, percentage, update_location_at = Time.current.in_time_zone)
+  def initialize(user, latitude, longitude, percentage, update_location_at)
   	@user = user
   	@latitude = latitude
   	@longitude = longitude
     @percentage = percentage
-    @update_location_at = update_location_at
+    @update_location_at = update_location_at || Time.current.in_time_zone
   end
 
   def call
