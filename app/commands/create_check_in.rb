@@ -27,9 +27,9 @@ class CreateCheckIn
                                                longitude: longitude,
                                                percentage: percentage,
                                                created_at: update_location_at
-        user.update! address: address unless user.address
-        check_in.update! address: address unless check_in.address
-        last_location.update! address: address unless last_location.address                  
+        #user.update! address: address unless user.address
+        #check_in.update! address: address unless check_in.address
+        #last_location.update! address: address unless last_location.address                  
         Report.refresh                               
       end
     end

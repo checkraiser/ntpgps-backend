@@ -36,8 +36,8 @@ class CreateLocation
                    update_location_at: update_location_at,
                    online_status: true,
                    percentage: percentage
-      user.update! address: address unless user.address                   
-      location.update! address: address unless location.address                                     
+      #user.update! address: address unless user.address                   
+      #location.update! address: address unless location.address                                     
       return location                   
     end
   rescue => e
