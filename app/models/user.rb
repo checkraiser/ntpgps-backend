@@ -20,5 +20,9 @@ class User < ApplicationRecord
   def info
     "#{name} - #{latest_update_time}"
   end
+
+  def latest_update_time
+    update_location_at.strftime("%d/%m/%Y %H:%M")
+  end
 end
 
