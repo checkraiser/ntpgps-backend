@@ -20,7 +20,6 @@ class CreateLocation
     return nil unless valid?
     create_location
   end
-  
 
   private
 
