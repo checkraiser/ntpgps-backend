@@ -14,8 +14,12 @@ Rails.application.routes.draw do
   resources :locations, only: [:index, :create] do
     post :queue, on: :collection
   end
-  resources :check_ins, only: [:index, :create]
-  resources :check_outs, only: [:index, :create]
+  resources :check_ins, only: [:index, :create] do
+    post :queue, on: :collection
+  end
+  resources :check_outs, only: [:index, :create] do
+    post :queue, on: :collection
+  end
   post 'authenticate', to: 'authentication#authenticate'
   post 'refresh_token', to: 'authentication#refresh_token'
   post '/login', to: 'sessions#create'

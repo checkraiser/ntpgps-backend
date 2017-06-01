@@ -11,4 +11,15 @@ class CheckOutsController < ApplicationController
       render json: { code: 402, error: command.errors }
     end
   end
+
+  def queue
+    command = CreateQueueCheckOuts.call(
+      current_user: current_user, check_outs: params[:check_outs]
+    )
+    if command.success?
+        render json: { code: 204 }, status: 204
+    else
+      render json: { error: command.errors }, status: 400 
+    end
+  end
 end
