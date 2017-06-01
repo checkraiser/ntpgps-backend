@@ -22,7 +22,7 @@ class LocationsController < ApplicationController
       current_user: current_user, locations: params[:locations]
     )
     if command.success?
-        head 204
+        render json: { code: 204 }, status: 204
     else
       render json: { error: command.errors }, status: 400 
     end
