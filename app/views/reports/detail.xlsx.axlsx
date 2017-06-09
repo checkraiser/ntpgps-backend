@@ -9,4 +9,12 @@ wb.add_worksheet(name: "Reports") do |sheet|
   @reports.each_with_index do |cc, index|
     sheet.add_row ["#{index + 1}", cc[:ci_date], cc[:ci_time], cc[:ci_address], cc[:co_date], cc[:co_time], cc[:co_address], ""]   
   end
+  current_time = Time.current.in_time_zone
+  sheet.add_row ["", "", "", "", "", "", "Ngày #{current_time.day} tháng #{current_time.month} năm #{current_time.year}"]
+  sheet.add_row ["", "", "", "NGƯỜI LẬP", "", "", "Trưởng phòng"]
+  sheet.add_row [""]
+  sheet.add_row [""]
+  sheet.add_row [""]
+  sheet.add_row [""]
+  sheet.add_row ["", "", "", "Nguyễn Văn A", "", "", "Nguyễn Văn Tùng"]
 end

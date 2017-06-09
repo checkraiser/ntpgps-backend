@@ -8,8 +8,10 @@ class CreateCheckOut
     @percentage = percentage
     if !update_location_at 
       @update_location_at = Time.current.in_time_zone
-    else
+    elsif update_location_at && update_location_at.is_a?(String)
       @update_location_at = Time.zone.parse(update_location_at)
+    else
+      @update_location_at = update_location_at
     end
   end
 

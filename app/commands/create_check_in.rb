@@ -6,7 +6,13 @@ class CreateCheckIn
   	@latitude = latitude
   	@longitude = longitude
     @percentage = percentage
-    @update_location_at = update_location_at || Time.current.in_time_zone
+    if !update_location_at 
+      @update_location_at = Time.current.in_time_zone
+    elsif update_location_at && update_location_at.is_a?(String)
+      @update_location_at = Time.zone.parse(update_location_at)
+    else
+      @update_location_at = update_location_at
+    end
   end
 
   def call

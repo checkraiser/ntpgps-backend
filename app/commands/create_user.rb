@@ -27,16 +27,16 @@ class CreateUser
 				  password_confirmation: password_confirmation,
 				  admin: admin,
 				  address: address
-	geo = Geocoder.search(address)				  
-	unless geo.empty?
-		user.latitude = geo[0].data["lat"]
-		user.longitude = geo[0].data["lon"]
-	end
-	if user.save  	
-    Report.refresh				  
-	  user
+  	geo = Geocoder.search(address)				  
+  	unless geo.empty?
+  		user.latitude = geo[0].data["lat"]
+  		user.longitude = geo[0].data["lon"]
+  	end
+  	if user.save  	
+      Report.refresh				  
+  	  user
   	else
-  	  user.errors
+  	  nil
   	end
   end
 end
